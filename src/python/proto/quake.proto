@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package quake;
+
+// Service definition for the Quake index server
+service QuakeService {
+  // Build the index with given vectors
+  rpc BuildIndex(BuildIndexRequest) returns (BuildIndexResponse) {}
+  
+  // Search for nearest neighbors
+  rpc Search(SearchRequest) returns (SearchResponse) {}
+  
+  // Add vectors to the index
+  rpc AddVectors(AddVectorsRequest) returns (AddVectorsResponse) {}
+  
+  // Remove vectors from the index
+  rpc RemoveVectors(RemoveVectorsRequest) returns (RemoveVectorsResponse) {}
+  
+  // Perform maintenance on the index
+  rpc Maintenance(MaintenanceRequest) returns (MaintenanceResponse) {}
+  
+  // Get server statistics
+  rpc GetStats(GetStatsRequest) returns (GetStatsResponse) {}
+}
+
+// Request to build the index
+message BuildIndexRequest {
+  string dataset_path = 1;      // Path to the dataset
+  string dataset_name = 2;      // Name of the dataset (e.g., "sift1m")
+  int32 nlist = 3;             // Number of lists
+  string metric = 4;            // Distance metric
+}
+
+// Response from building the index
+message BuildIndexResponse {
+  bool success = 1;
+  string error_message = 2;
+  double build_time = 3;       // Build time in seconds
+  int64 num_vectors = 4;       // Number of vectors loaded
+  int32 dimension = 5;         // Vector dimension
+}
+
+// Request to search the index
+message SearchRequest {
+  repeated float queries = 1;  // Flattened query vectors
+  int32 num_queries = 2;       // Number of queries
+  int32 dimension = 3;         // Query dimension
+  int32 k = 4;                 // Number of neighbors to return
+  int32 nprobe = 5;            // Number of partitions to probe
+  float recall_target = 6;     // Target recall
+  int32 max_iterations = 7;    // Maximum number of iterations
+  int32 batch_size = 8;         // Batch size
+  int32 num_threads = 9;        // Number of threads
+  bool use_gpu = 10;            // Whether to use GPU
+  int32 gpu_id = 11;            // GPU ID
+  bool verbose = 12;            // Whether to print verbose output
+}
+
+// Response from search
+message SearchResponse {
+  bool success = 1;
+  string error_message = 2;
+  repeated int64 ids = 3;      // Flattened result IDs
+  repeated float distances = 4; // Flattened result distances
+  double search_time = 5;      // Search time in seconds
+}
+
+// Request to add vectors
+message AddVectorsRequest {
+  repeated float vectors = 1;  // Flattened vector data
+  int32 num_vectors = 2;       // Number of vectors
+  int32 dimension = 3;         // Vector dimension
+  repeated int64 ids = 4;      // Optional vector IDs
+}
+
+// Response from adding vectors
+message AddVectorsResponse {
+  bool success = 1;
+  string error_message = 2;
+  double add_time = 3;         // Add time in seconds
+}
+
+// Request to remove vectors
+message RemoveVectorsRequest {
+  repeated int64 ids = 1;      // IDs of vectors to remove
+}
+
+// Response from removing vectors
+message RemoveVectorsResponse {
+  bool success = 1;
+  string error_message = 2;
+  double remove_time = 3;      // Remove time in seconds
+}
+
+// Request to perform maintenance
+message MaintenanceRequest {
+  // No parameters needed
+}
+
+// Response from maintenance
+message MaintenanceResponse {
+  bool success = 1;
+  string error_message = 2;
+  double maintenance_time = 3; // Maintenance time in seconds
+}
+
+// Request for server statistics
+message GetStatsRequest {
+  // No parameters needed
+}
+
+// Response with server statistics
+message GetStatsResponse {
+  bool success = 1;
+  string error_message = 2;
+  int64 n_total = 3;            // Total number of vectors
+  int32 dimension = 4;          // Vector dimension
+  int32 n_clusters = 5;          // Number of clusters
+  int64 memory_usage = 6;         // Memory usage in bytes
+} 
