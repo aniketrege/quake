@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  quake-server-1:
+    container_name: quake-server-1
+    build: .
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./sift/:/quake/data/sift
+      - ./src/python/proto:/usr/local/lib/python3.12/dist-packages/quake/proto
+      - ./src/python/index_wrappers:/usr/local/lib/python3.12/dist-packages/quake/index_wrappers
+    environment:
+      - SERVER_ID=1
+    command: ["python3", "-c", "from quake.index_wrappers.quake_server import QuakeServer; server = QuakeServer(port=50051); server.start(); server.server.wait_for_termination()"]
+    networks:
+      - quake-network
+
+  quake-server-2:
+    container_name: quake-server-2
+    build: .
+    ports:
+      - "50052:50051"
+    volumes:
+      - ./sift/:/quake/data/sift
+      - ./src/python/proto:/usr/local/lib/python3.12/dist-packages/quake/proto
+      - ./src/python/index_wrappers:/usr/local/lib/python3.12/dist-packages/quake/index_wrappers
+    environment:
+      - SERVER_ID=2
+    command: ["python3", "-c", "from quake.index_wrappers.quake_server import QuakeServer; server = QuakeServer(port=50051); server.start(); server.server.wait_for_termination()"]
+    networks:
+      - quake-network
+
+  quake-server-3:
+    container_name: quake-server-3
+    build: .
+    ports:
+      - "50053:50051"
+    volumes:
+      - ./sift/:/quake/data/sift
+      - ./src/python/proto:/usr/local/lib/python3.12/dist-packages/quake/proto
+      - ./src/python/index_wrappers:/usr/local/lib/python3.12/dist-packages/quake/index_wrappers
+    environment:
+      - SERVER_ID=3
+    command: ["python3", "-c", "from quake.index_wrappers.quake_server import QuakeServer; server = QuakeServer(port=50051); server.start(); server.server.wait_for_termination()"]
+    networks:
+      - quake-network
+
+  quake-client:
+    container_name: quake-client
+    build: .
+    volumes:
+      - ./sift/:/quake/data/sift
+      - ./src/python/proto:/usr/local/lib/python3.12/dist-packages/quake/proto
+      - ./src/python/index_wrappers:/usr/local/lib/python3.12/dist-packages/quake/index_wrappers
+    # command: ["python3", "examples/distributed_quickstart.py"]
+    command: ["tail", "-f", "/dev/null"]
+    networks:
+      - quake-network
+    depends_on:
+      - quake-server-1
+      - quake-server-2
+      - quake-server-3
+
+  quake-client-test:
+    container_name: quake-client-test
+    build: .
+    volumes:
+      - ./sift/:/quake/data/sift
+      - ./src/python/proto:/usr/local/lib/python3.12/dist-packages/quake/proto
+      - ./src/python/index_wrappers:/usr/local/lib/python3.12/dist-packages/quake/index_wrappers
+      - ./test_grpc.py:/quake/test_grpc.py
+    command: ["tail", "-f", "/dev/null"]
+    networks:
+      - quake-network
+    depends_on:
+      - quake-server-1
+      - quake-server-2
+      - quake-server-3
+
+networks:
+  quake-network:
+    driver: bridge 
