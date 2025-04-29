@@ -103,10 +103,10 @@ def main():
     print(f"Build time: {build_time:.4f} seconds")
 
     # Run single server tests
-    single_server_results = []
-    for server in SERVERS:
-        results = run_single_server_test(dist_index, server, queries, gt, k, nprobe)
-        single_server_results.append(results)
+    single_server_results = ["None"] * len(SERVERS)
+    # for server in SERVERS:
+    #     results = run_single_server_test(dist_index, server, queries, gt, k, nprobe)
+    #     single_server_results.append(results)
     
     # Run distributed test
     dist_results = run_distributed_test(dist_index, queries, gt, k, nprobe)
