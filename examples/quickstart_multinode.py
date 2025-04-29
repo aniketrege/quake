@@ -77,7 +77,7 @@ def main():
     
     # Use a subset for testing
     ids = torch.arange(vectors.size(0))
-    nq = 100_000  # More queries to better demonstrate distribution
+    nq = 10_000  # More queries to better demonstrate distribution
     queries = queries[:nq]
     gt = gt[:nq]
     
