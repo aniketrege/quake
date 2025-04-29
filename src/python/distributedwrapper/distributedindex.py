@@ -136,7 +136,11 @@ class DistributedIndex:
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             for i in range(n_servers):
                 print("Submitting", i)
-                future = executor.submit(self._f, i,partitioned_vectors, partitioned_ids)
+                partition_idx = i % self.num_partitions
+                v = partitioned_vectors[partition_idx]
+                ids = partitioned_ids[partition_idx]
+                build_params = self.build_params[i]
+                future = executor.submit(self._f, i, v, ids, build_params, partition_idx)
                 futures.append(future)
 
             # Collect results as they complete
@@ -152,10 +156,8 @@ class DistributedIndex:
         print("Partition to server map:")
         print(self.partition_to_server_map)
 
-    def _f(self, i, partitioned_vectors, partitioned_ids):
-        partition_idx = i % self.num_partitions
-        self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx],
-                              self.build_params[i])
+    def _f(self, i, v, ids, build_params, partition_idx):
+        self.indices[i].build(v, ids, build_params)
         self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
         
     def get_index_and_params(self, server_address: str):
