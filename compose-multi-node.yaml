@@ -4,9 +4,7 @@ services:
         command: tail -f /dev/null
         volumes:
             - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
-            - ./examples/quickstart_dist.py:/quake/examples/quickstart_dist.py
-            - ./examples/quickstart_multidist.py:/quake/examples/quickstart_multidist.py
-            - ./examples/quickstart_multidist_with_partitions.py:/quake/examples/quickstart_multidist_with_partitions.py
+            - ./examples:/quake/examples
             - ./sift/:/quake/data/sift/
     quake2:
         build: .
@@ -16,9 +14,7 @@ services:
         # command: tail -f /dev/null
         volumes:
             - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
-            - ./examples/quickstart_dist.py:/quake/examples/quickstart_dist.py
-            - ./examples/quickstart_multidist.py:/quake/examples/quickstart_multidist.py
-            - ./examples/quickstart_multidist_with_partitions.py:/quake/examples/quickstart_multidist_with_partitions.py
+            - ./examples:/quake/examples
             - ./sift/:/quake/data/sift/
     quake3:
         build: .
@@ -28,9 +24,7 @@ services:
         # command: tail -f /dev/null
         volumes:
             - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
-            - ./examples/quickstart_dist.py:/quake/examples/quickstart_dist.py
-            - ./examples/quickstart_multidist.py:/quake/examples/quickstart_multidist.py
-            - ./examples/quickstart_multidist_with_partitions.py:/quake/examples/quickstart_multidist_with_partitions.py
+            - ./examples:/quake/examples
             - ./sift/:/quake/data/sift/
     quake4:
         build: .
@@ -40,7 +34,5 @@ services:
             - "50054:50054"
         volumes:
             - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
-            - ./examples/quickstart_dist.py:/quake/examples/quickstart_dist.py
-            - ./examples/quickstart_multidist.py:/quake/examples/quickstart_multidist.py
-            - ./examples/quickstart_multidist_with_partitions.py:/quake/examples/quickstart_multidist_with_partitions.py
+            - ./examples:/quake/examples
             - ./sift/:/quake/data/sift/
