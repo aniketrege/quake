@@ -9,6 +9,8 @@ services:
             - ./sift/:/quake/data/sift/
     quake2:
         build: .
+        ports:
+            - "50052:50052"
         command: python3 -c "from quake.distributedwrapper import Remote; Remote(50052).start()"
         # command: tail -f /dev/null
         volumes:
@@ -18,6 +20,8 @@ services:
             - ./sift/:/quake/data/sift/
     quake3:
         build: .
+        ports:
+            - "50053:50053"
         command: python3 -c "from quake.distributedwrapper import Remote; Remote(50053).start()"
         # command: tail -f /dev/null
         volumes:
@@ -29,6 +33,8 @@ services:
         build: .
         command: python3 -c "from quake.distributedwrapper import Remote; Remote(50054).start()"
         # command: tail -f /dev/null
+        ports:
+            - "50054:50054"
         volumes:
             - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
             - ./examples/quickstart_dist.py:/quake/examples/quickstart_dist.py
