@@ -127,12 +127,6 @@ class DistributedIndex:
 
         assert len(partitioned_vectors) == self.num_partitions, "Number of partitioned vectors must match number of partitions"
 
-        def f(i):
-            partition_idx = i % self.num_partitions
-            self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx],
-                                  self.build_params[i])
-            self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
-
         # with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
         #     executor.map(f, range(len(self.server_addresses)))
 
@@ -140,7 +134,7 @@ class DistributedIndex:
         futures = []
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             for i in range(n_servers):
-                future = executor.submit(f, i)
+                future = executor.submit(self._f, i,partitioned_vectors, partitioned_ids)
                 futures.append(future)
 
             # Collect results as they complete
@@ -156,6 +150,11 @@ class DistributedIndex:
         print("Partition to server map:")
         print(self.partition_to_server_map)
 
+    def _f(self, i, partitioned_vectors, partitioned_ids):
+        partition_idx = i % self.num_partitions
+        self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx],
+                              self.build_params[i])
+        self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
         
     def get_index_and_params(self, server_address: str):
         """
