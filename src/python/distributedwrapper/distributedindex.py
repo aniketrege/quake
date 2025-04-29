@@ -130,6 +130,7 @@ class DistributedIndex:
         # with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
         #     executor.map(f, range(len(self.server_addresses)))
 
+        print("hello")
         n_servers = len(self.server_addresses)
         futures = []
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
