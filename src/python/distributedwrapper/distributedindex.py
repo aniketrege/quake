@@ -136,6 +136,16 @@ class DistributedIndex:
         with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
             executor.map(f, range(len(self.server_addresses)))
 
+        n_servers = len(self.server_addresses)
+        futures = []
+        with ThreadPoolExecutor(max_workers=n_servers) as executor:
+            for i in range(n_servers):
+                future = executor.submit(f, i)
+                futures.append(future)
+
+            # Collect results as they complete
+            results = [future.result() for future in futures]
+
         # # Create build_params for each server
         # for i in range(len(self.server_addresses)):
         #     # Build the index on each server
