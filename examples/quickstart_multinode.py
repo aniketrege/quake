@@ -77,7 +77,7 @@ def main():
     
     # Use a subset for testing
     ids = torch.arange(vectors.size(0))
-    nq = 100  # More queries to better demonstrate distribution
+    nq = 100_000  # More queries to better demonstrate distribution
     queries = queries[:nq]
     gt = gt[:nq]
     
@@ -87,7 +87,7 @@ def main():
 
     # Build the distributed index first
     build_params_kw_args = {
-        "nlist": 32,
+        "nlist": 1024,
         "metric": "l2"
     }
     search_params_kw_args = {
@@ -103,7 +103,7 @@ def main():
     print(f"Build time: {build_time:.4f} seconds")
 
     # Run single server tests
-    single_server_results = ["None"] * len(SERVERS)
+    # single_server_results = []
     # for server in SERVERS:
     #     results = run_single_server_test(dist_index, server, queries, gt, k, nprobe)
     #     single_server_results.append(results)
@@ -112,21 +112,22 @@ def main():
     dist_results = run_distributed_test(dist_index, queries, gt, k, nprobe)
     
     # Print comparison
-    print("\n=== Performance Comparison ===")
-    print("Single Server Results:")
-    for i, (server, (search_time, recall)) in enumerate(zip(SERVERS, single_server_results)):
-        print(f"Server {i+1} ({server}):")
-        print(f"  Search time: {search_time:.4f}s")
-        print(f"  Recall: {recall:.4f}")
+    # print("\n=== Performance Comparison ===")
+    # print("Single Server Results:")
+    # for i, (server, (search_time, recall)) in enumerate(zip(SERVERS, single_server_results)):
+    #     print(f"Server {i+1} ({server}):")
+    #     print(f"  Search time: {search_time:.4f}s")
+    #     print(f"  Recall: {recall:.4f}")
     
     print("\nDistributed Results:")
+    print(len(SERVERS), num_partitions, nq, queries.size(0), build_params_kw_args["nlist"])
     print(f"Search time: {dist_results[0]:.4f}s")
     print(f"Recall: {dist_results[1]:.4f}")
     
-    # Calculate speedup
-    avg_single_search_time = sum(r[0] for r in single_server_results) / len(single_server_results)
-    speedup = avg_single_search_time / dist_results[0]
-    print(f"\nSearch speedup: {speedup:.2f}x")
+    # # Calculate speedup
+    # avg_single_search_time = sum(r[0] for r in single_server_results) / len(single_server_results)
+    # speedup = avg_single_search_time / dist_results[0]
+    # print(f"\nSearch speedup: {speedup:.2f}x")
 
 if __name__ == "__main__":
     main() 
