@@ -76,7 +76,7 @@ def main():
     print("Loading sift1m dataset...")
     vectors, queries, gt = load_dataset("sift1m")
 
-    print(queries.size())
+    print("query size", queries.size())
     
     # Use a subset for testing
     ids = torch.arange(vectors.size(0))
