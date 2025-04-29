@@ -135,6 +135,7 @@ class DistributedIndex:
         futures = []
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             for i in range(n_servers):
+                print("Submitting", i)
                 future = executor.submit(self._f, i,partitioned_vectors, partitioned_ids)
                 futures.append(future)
 
