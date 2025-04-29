@@ -133,8 +133,8 @@ class DistributedIndex:
                                   self.build_params[i])
             self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
 
-        with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
-            executor.map(f, range(len(self.server_addresses)))
+        # with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
+        #     executor.map(f, range(len(self.server_addresses)))
 
         n_servers = len(self.server_addresses)
         futures = []
