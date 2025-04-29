@@ -1,7 +1,7 @@
 from typing import Any, List, Dict, Optional, Tuple
 import torch
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from quake import QuakeIndex, IndexBuildParams, SearchParams
 from quake.distributedwrapper import distributed
 from collections import defaultdict
@@ -127,12 +127,21 @@ class DistributedIndex:
 
         assert len(partitioned_vectors) == self.num_partitions, "Number of partitioned vectors must match number of partitions"
 
-        # Create build_params for each server
-        for i in range(len(self.server_addresses)):
-            # Build the index on each server
+        def f(i):
             partition_idx = i % self.num_partitions
-            self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx], self.build_params[i])
+            self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx],
+                                  self.build_params[i])
             self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
+
+        with ThreadPoolExecutor() as executor:
+            executor.map(f, range(len(self.server_addresses)))
+
+        # # Create build_params for each server
+        # for i in range(len(self.server_addresses)):
+        #     # Build the index on each server
+        #     partition_idx = i % self.num_partitions
+        #     self.indices[i].build(partitioned_vectors[partition_idx], partitioned_ids[partition_idx], self.build_params[i])
+        #     self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
 
         print("Partition to server map:")
         print(self.partition_to_server_map)

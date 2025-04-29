@@ -36,7 +36,6 @@ SERVERS = [
               "node3:50054",
           ][:int(sys.argv[1])]
 
-
 def run_single_server_test(dist_index: DistributedIndex, server_address: str, queries: torch.Tensor, gt: torch.Tensor, k: int, nprobe: int):
     """Run the test on a single server."""
     print(f"\n=== Single Server Test ({server_address}) ===")
@@ -62,7 +61,7 @@ def run_distributed_test(dist_index: DistributedIndex, queries: torch.Tensor, gt
     # Search
     print(f"Searching {queries.size(0)} queries with k={k}, nprobe={nprobe}...")
     start_time = time.time()
-    result_ids = dist_index.search_dist(queries)
+    result_ids = dist_index.search(queries)
     search_time = time.time() - start_time
     recall = compute_recall(result_ids, gt, k)
     
@@ -78,7 +77,7 @@ def main():
     
     # Use a subset for testing
     ids = torch.arange(vectors.size(0))
-    nq = 100_000  # More queries to better demonstrate distribution
+    nq = 100  # More queries to better demonstrate distribution
     queries = queries[:nq]
     gt = gt[:nq]
     
@@ -95,9 +94,9 @@ def main():
         "k": k,
         "nprobe": nprobe
     }
-    num_partitions = len(SERVERS)
+    num_partitions = 1
     dist_index = DistributedIndex(SERVERS, num_partitions, build_params_kw_args, search_params_kw_args)
-    print("Building index on all servers...", num_partitions)
+    print("Building index on all servers...")
     start_time = time.time()
     dist_index.build(vectors, ids)
     build_time = time.time() - start_time
@@ -128,7 +127,6 @@ def main():
     avg_single_search_time = sum(r[0] for r in single_server_results) / len(single_server_results)
     speedup = avg_single_search_time / dist_results[0]
     print(f"\nSearch speedup: {speedup:.2f}x")
-
 
 if __name__ == "__main__":
     main() 
