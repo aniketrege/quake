@@ -31,6 +31,8 @@ class DistributedIndex:
         self.build_params_kw_args = build_params_kw_args
         self.search_params_kw_args = search_params_kw_args
         self.use_kmeans = use_kmeans
+        self.results_list = []  # Store search results for analysis
+        self.top_k_server_counts = defaultdict(int)  # Track which servers contributed to top k results
 
         self.build_params: List[IndexBuildParams] = []
         self._initialize_build_params()
@@ -275,7 +277,7 @@ class DistributedIndex:
         num_replicas = n_servers // self.num_partitions
         
         # Split queries among servers
-        results_list = []
+        self.results_list = []  # Reset results list
         
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             # Calculate base batch size and remainder
@@ -301,10 +303,10 @@ class DistributedIndex:
                     future = executor.submit(self._search_single_server_dist, server, queries_for_partition_i)
                     futures.append(future)
                 results = [future.result() for future in futures]
-                results_list.append(results)
+                self.results_list.append(results)
         
         # Merge results
-        final_results = self._merge_search_results_dist(results_list)
+        final_results = self._merge_search_results_dist(self.results_list)
         return final_results
 
     def search_sync(self, queries: torch.Tensor) -> torch.Tensor:
@@ -362,10 +364,21 @@ class DistributedIndex:
             Concatenated search results of shape (num_queries, k)
         """
         full_ids = []
+        self.top_k_server_counts.clear()  # Reset the counts
+        
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             ids = [result.ids for result in results_list[i]]
             distances = [result.distances for result in results_list[i]]
+            
+            # Create a mapping of ID to server index for each query
+            id_to_server = []
+            for query_idx in range(ids[0].size(0)):
+                query_id_to_server = {}
+                for server_idx, server_ids in enumerate(ids):
+                    for result_idx in range(server_ids.size(1)):
+                        query_id_to_server[server_ids[query_idx, result_idx].item()] = server_idx
+                id_to_server.append(query_id_to_server)
             
             # Concatenate along the k dimension (dim=1)
             ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
@@ -379,6 +392,43 @@ class DistributedIndex:
             top_k_ids = sorted_ids[:, :self.k]
             full_ids.append(top_k_ids)
             
+            # Track which servers contributed to the top k results
+            for query_idx in range(top_k_ids.size(0)):
+                for result_idx in range(top_k_ids.size(1)):
+                    result_id = top_k_ids[query_idx, result_idx].item()
+                    server_idx = id_to_server[query_idx][result_id]
+                    self.top_k_server_counts[server_idx] += 1
+            
         # Concatenate results from all partitions
         final_ids = torch.cat(full_ids, dim=0)
         return final_ids
+
+    def calculate_gini_index(self) -> float:
+        """
+        Calculate the Gini index for the distribution of top k results across servers.
+        A Gini index of 0 indicates perfect equality (results evenly distributed),
+        while 1 indicates maximum inequality (all results from a single server).
+        
+        Returns:
+            float: Gini index between 0 and 1
+        """
+        if not self.top_k_server_counts:
+            return 0.0
+            
+        # Convert counts to proportions
+        total_results = sum(self.top_k_server_counts.values())
+        if total_results == 0:
+            return 0.0
+            
+        proportions = [count / total_results for count in self.top_k_server_counts.values()]
+        proportions.sort()
+        
+        # Calculate Gini index
+        n = len(proportions)
+        gini_sum = 0
+        for i in range(n):
+            for j in range(n):
+                gini_sum += abs(proportions[i] - proportions[j])
+        
+        gini_index = gini_sum / (2 * n * sum(proportions))
+        return gini_index
