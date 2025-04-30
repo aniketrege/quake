@@ -86,7 +86,7 @@ def main():
     
     # Test parameters
     k = 10
-    nprobe = 10
+    nprobe = int(sys.argv[2])
 
     # Build the distributed index first
     build_params_kw_args = {
