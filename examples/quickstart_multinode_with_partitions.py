@@ -88,6 +88,12 @@ def main():
     k = 10
     nprobe = int(sys.argv[2])
 
+    # Use k-means clustering for partitioning
+    if len(sys.argv) > 3:
+        use_kmeans = sys.argv[3] == "use_kmeans"
+    else:
+        use_kmeans = False
+
     # Build the distributed index first
     build_params_kw_args = {
         "nlist": 1024,
@@ -98,7 +104,7 @@ def main():
         "nprobe": nprobe
     }
     num_partitions = len(SERVERS)
-    dist_index = DistributedIndex(SERVERS, num_partitions, build_params_kw_args, search_params_kw_args)
+    dist_index = DistributedIndex(SERVERS, num_partitions, build_params_kw_args, search_params_kw_args, use_kmeans)
     print("Building index on all servers...", num_partitions)
     start_time = time.time()
     dist_index.build(vectors, ids)

@@ -13,12 +13,16 @@ class DistributedIndex:
     across servers for parallel processing.
     """
     
-    def __init__(self, server_addresses: List[str], num_partitions: int, build_params_kw_args: Dict[str, Any], search_params_kw_args: Dict[str, Any]):
+    def __init__(self, server_addresses: List[str], num_partitions: int, build_params_kw_args: Dict[str, Any], search_params_kw_args: Dict[str, Any], use_kmeans: bool = False):
         """
         Initialize the DistributedIndex with a list of server addresses.
         
         Args:
             server_addresses: List of server addresses in the format "host:port"
+            num_partitions: Number of partitions to split the data into
+            build_params_kw_args: Keyword arguments for building the index
+            search_params_kw_args: Keyword arguments for search parameters
+            use_kmeans: Whether to use k-means clustering for partitioning (default: False)
         """
         if not server_addresses:
             raise ValueError("At least one server address must be provided")
@@ -26,6 +30,7 @@ class DistributedIndex:
         self.server_addresses = server_addresses
         self.build_params_kw_args = build_params_kw_args
         self.search_params_kw_args = search_params_kw_args
+        self.use_kmeans = use_kmeans
 
         self.build_params: List[IndexBuildParams] = []
         self._initialize_build_params()
@@ -78,6 +83,8 @@ class DistributedIndex:
     def _prepartition_vectors(self, vectors: torch.Tensor, ids: torch.Tensor):
         """
         Prepartition the vectors and ids into num_partitions.
+        If use_kmeans is True, uses FAISS k-means clustering to partition the vectors.
+        Otherwise, splits the vectors evenly across partitions.
         
         Args:
             vectors: Tensor of vectors to partition
@@ -86,28 +93,58 @@ class DistributedIndex:
         Returns:
             Tuple[List[torch.Tensor], List[torch.Tensor]]: Lists of partitioned vectors and IDs
         """
+        if self.use_kmeans:
+            # Use FAISS k-means clustering to partition the vectors
+            import faiss
+            import numpy as np
             
-        # Calculate partition sizes
-        total_size = vectors.size(0)
-        base_size = total_size // self.num_partitions
-        remainder = total_size % self.num_partitions
-        
-        partitioned_vectors = []
-        partitioned_ids = []
-        
-        start_idx = 0
-        for i in range(self.num_partitions):
-            # Calculate size for this partition
-            partition_size = base_size + (1 if i < remainder else 0)
+            # Convert tensors to numpy arrays for FAISS
+            x = vectors.numpy()
+            d = x.shape[1]
             
-            # Slice vectors and ids
-            end_idx = start_idx + partition_size
-            partitioned_vectors.append(vectors[start_idx:end_idx])
-            partitioned_ids.append(ids[start_idx:end_idx])
+            # Run k-means clustering with 20 iterations
+            kmeans = faiss.Kmeans(d, self.num_partitions, niter=20)
+            kmeans.train(x)
             
-            start_idx = end_idx
+            # Get cluster assignments by finding nearest centroid for each vector
+            centroids = kmeans.centroids
+            index = faiss.IndexFlatL2(d)
+            index.add(centroids)
+            _, assignments = index.search(x, 1)
+            assignments = assignments.ravel()
             
-        return partitioned_vectors, partitioned_ids
+            # Partition vectors and ids by cluster
+            partitioned_vectors = []
+            partitioned_ids = []
+            
+            for i in range(self.num_partitions):
+                mask = assignments == i
+                partitioned_vectors.append(vectors[mask])
+                partitioned_ids.append(ids[mask])
+            
+            return partitioned_vectors, partitioned_ids
+        else:
+            # Original even splitting logic
+            total_size = vectors.size(0)
+            base_size = total_size // self.num_partitions
+            remainder = total_size % self.num_partitions
+            
+            partitioned_vectors = []
+            partitioned_ids = []
+            
+            start_idx = 0
+            for i in range(self.num_partitions):
+                # Calculate size for this partition
+                partition_size = base_size + (1 if i < remainder else 0)
+                
+                # Slice vectors and ids
+                end_idx = start_idx + partition_size
+                partitioned_vectors.append(vectors[start_idx:end_idx])
+                partitioned_ids.append(ids[start_idx:end_idx])
+                
+                start_idx = end_idx
+                
+            return partitioned_vectors, partitioned_ids
 
     def build(self, vectors: torch.Tensor, ids: torch.Tensor):
         """
