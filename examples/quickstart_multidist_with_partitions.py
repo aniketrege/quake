@@ -55,7 +55,7 @@ def run_distributed_test(dist_index: DistributedIndex, queries: torch.Tensor, gt
     # Search
     print(f"Searching {queries.size(0)} queries with k={k}, nprobe={nprobe}...")
     start_time = time.time()
-    result_ids = dist_index.search(queries)
+    result_ids = dist_index.search_dist(queries)
     search_time = time.time() - start_time
     recall = compute_recall(result_ids, gt, k)
     
@@ -88,7 +88,7 @@ def main():
         "k": k,
         "nprobe": nprobe
     }
-    num_partitions = 1
+    num_partitions = 3
     dist_index = DistributedIndex(SERVERS, num_partitions, build_params_kw_args, search_params_kw_args)
     print("Building index on all servers...")
     start_time = time.time()
