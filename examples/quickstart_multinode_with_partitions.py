@@ -118,7 +118,11 @@ def main():
     #     single_server_results.append(results)
     
     # Run distributed test
+    start = time.perf_counter()
     dist_results = run_distributed_test(dist_index, queries, gt, k, nprobe)
+    end = time.perf_counter()
+    print(time.strftime("%Y-%m-%d %H:%M:%S"), "total test time", end-start)
+    print(dist_index.stats)
     
     # Print comparison
     # print("\n=== Performance Comparison ===")

@@ -1,10 +1,13 @@
-from typing import Any, List, Dict, Optional, Tuple
-import torch
 import asyncio
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import time
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
+from typing import Any, List, Dict, Tuple
+
+import torch
 from quake import QuakeIndex, IndexBuildParams, SearchParams
 from quake.distributedwrapper import distributed
-from collections import defaultdict
+
 
 class DistributedIndex:
     """
@@ -12,8 +15,9 @@ class DistributedIndex:
     Each server maintains a full copy of the index, and queries are distributed
     across servers for parallel processing.
     """
-    
-    def __init__(self, server_addresses: List[str], num_partitions: int, build_params_kw_args: Dict[str, Any], search_params_kw_args: Dict[str, Any], use_kmeans: bool = False):
+
+    def __init__(self, server_addresses: List[str], num_partitions: int, build_params_kw_args: Dict[str, Any],
+                 search_params_kw_args: Dict[str, Any], use_kmeans: bool = False):
         """
         Initialize the DistributedIndex with a list of server addresses.
         
@@ -26,13 +30,14 @@ class DistributedIndex:
         """
         if not server_addresses:
             raise ValueError("At least one server address must be provided")
-            
+
         self.server_addresses = server_addresses
         self.build_params_kw_args = build_params_kw_args
         self.search_params_kw_args = search_params_kw_args
         self.use_kmeans = use_kmeans
         self.results_list = []  # Store search results for analysis
         self.top_k_server_counts = defaultdict(int)  # Track which servers contributed to top k results
+        self.stats = defaultdict(int)
 
         self.build_params: List[IndexBuildParams] = []
         self._initialize_build_params()
@@ -46,7 +51,8 @@ class DistributedIndex:
         self.k = self.search_params_kw_args["k"]
 
         # TODO if there are leftover servers, replicate most commonly accessed partitions
-        assert len(self.server_addresses) % num_partitions == 0, "Number of servers must be divisible by number of partitions"
+        assert len(
+            self.server_addresses) % num_partitions == 0, "Number of servers must be divisible by number of partitions"
 
         self.num_partitions = num_partitions
 
@@ -71,7 +77,7 @@ class DistributedIndex:
             index.register_function("remove")
             index.instantiate()
             self.indices.append(index)
-    
+
     def _initialize_search_params(self):
         """Initialize SearchParams instances for each server."""
         for address in self.server_addresses:
@@ -81,7 +87,7 @@ class DistributedIndex:
             params.k = self.search_params_kw_args["k"]
             params.nprobe = self.search_params_kw_args["nprobe"]
             self.search_params.append(params)
-    
+
     def _prepartition_vectors(self, vectors: torch.Tensor, ids: torch.Tensor):
         """
         Prepartition the vectors and ids into num_partitions.
@@ -99,53 +105,53 @@ class DistributedIndex:
             # Use FAISS k-means clustering to partition the vectors
             import faiss
             import numpy as np
-            
+
             # Convert tensors to numpy arrays for FAISS
             x = vectors.numpy()
             d = x.shape[1]
-            
+
             # Run k-means clustering with 20 iterations
             kmeans = faiss.Kmeans(d, self.num_partitions, niter=20)
             kmeans.train(x)
-            
+
             # Get cluster assignments by finding nearest centroid for each vector
             centroids = kmeans.centroids
             index = faiss.IndexFlatL2(d)
             index.add(centroids)
             _, assignments = index.search(x, 1)
             assignments = assignments.ravel()
-            
+
             # Partition vectors and ids by cluster
             partitioned_vectors = []
             partitioned_ids = []
-            
+
             for i in range(self.num_partitions):
                 mask = assignments == i
                 partitioned_vectors.append(vectors[mask])
                 partitioned_ids.append(ids[mask])
-            
+
             return partitioned_vectors, partitioned_ids
         else:
             # Original even splitting logic
             total_size = vectors.size(0)
             base_size = total_size // self.num_partitions
             remainder = total_size % self.num_partitions
-            
+
             partitioned_vectors = []
             partitioned_ids = []
-            
+
             start_idx = 0
             for i in range(self.num_partitions):
                 # Calculate size for this partition
                 partition_size = base_size + (1 if i < remainder else 0)
-                
+
                 # Slice vectors and ids
                 end_idx = start_idx + partition_size
                 partitioned_vectors.append(vectors[start_idx:end_idx])
                 partitioned_ids.append(ids[start_idx:end_idx])
-                
+
                 start_idx = end_idx
-                
+
             return partitioned_vectors, partitioned_ids
 
     def build(self, vectors: torch.Tensor, ids: torch.Tensor):
@@ -164,7 +170,8 @@ class DistributedIndex:
 
         partitioned_vectors, partitioned_ids = self._prepartition_vectors(vectors, ids)
 
-        assert len(partitioned_vectors) == self.num_partitions, "Number of partitioned vectors must match number of partitions"
+        assert len(
+            partitioned_vectors) == self.num_partitions, "Number of partitioned vectors must match number of partitions"
 
         # with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
         #     executor.map(f, range(len(self.server_addresses)))
@@ -196,9 +203,11 @@ class DistributedIndex:
         print(self.partition_to_server_map)
 
     def _f(self, i, v, ids, build_params, partition_idx):
+        print(time.strftime("%Y-%m-%d %H:%M:%S"), "Started building index", i)
         self.indices[i].build(v, ids, build_params)
         self.partition_to_server_map[partition_idx].append(self.server_addresses[i])
-        
+        print(time.strftime("%Y-%m-%d %H:%M:%S"), "Finished building index", i)
+
     def get_index_and_params(self, server_address: str):
         """
         Get the index and params for a given server address.
@@ -206,15 +215,25 @@ class DistributedIndex:
         for i in range(len(self.server_addresses)):
             if self.server_addresses[i] == server_address:
                 return self.indices[i], self.build_params[i], self.search_params[i]
-            
+
     def _search_single_server(self, server_idx: int, queries: torch.Tensor) -> torch.Tensor:
         """Helper method to perform search on a single server."""
-        return self.indices[server_idx].search(queries, self.search_params[server_idx])
+        start = time.perf_counter()
+        r = self.indices[server_idx].search(queries, self.search_params[server_idx])
+        end = time.perf_counter()
+        self.stats["num_queries"] += 1
+        self.stats["time_queries"] += end - start
+        return r
 
     def _search_single_server_dist(self, server_address: str, queries: torch.Tensor) -> torch.Tensor:
         """Helper method to perform search on a single server."""
+        start = time.perf_counter()
         index, _, search_params = self.get_index_and_params(server_address)
-        return index.search(queries, search_params)
+        r = index.search(queries, search_params)
+        end = time.perf_counter()
+        self.stats["num_queries"] += 1
+        self.stats["time_queries"] += end - start
+        return r
 
     def search(self, queries: torch.Tensor) -> torch.Tensor:
         """
@@ -227,30 +246,29 @@ class DistributedIndex:
             Search results from all servers merged and sorted
         """
 
-        
         # Distribute queries across servers
         n_servers = len(self.server_addresses)
         n_queries = queries.size(0)
-        
+
         # Calculate how many queries each server should handle
         queries_per_server = n_queries // n_servers
         remainder = n_queries % n_servers
-        
+
         # Split queries among servers
         start_idx = 0
         futures = []
-        
+
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             for i in range(n_servers):
                 # Calculate number of queries for this server
                 n_queries_for_server = queries_per_server + (1 if i < remainder else 0)
                 if n_queries_for_server == 0:
                     continue
-                    
+
                 # Get queries for this server
                 end_idx = start_idx + n_queries_for_server
                 server_queries = queries[start_idx:end_idx]
-                
+
                 # Submit search task to thread pool
                 future = executor.submit(self._search_single_server, i, server_queries)
                 futures.append(future)
@@ -258,9 +276,14 @@ class DistributedIndex:
 
             # Collect results as they complete
             results = [future.result() for future in futures]
-        
+
         # Merge results
-        return self._merge_search_results(results)
+        start = time.perf_counter()
+        r = self._merge_search_results(results)
+        end = time.perf_counter()
+        self.stats["num_merges"] += 1
+        self.stats["time_merges"] += end - start
+        return r
 
     def search_dist(self, queries: torch.Tensor) -> torch.Tensor:
         """
@@ -275,28 +298,28 @@ class DistributedIndex:
         # Distribute queries across servers
         n_servers = len(self.server_addresses)
         num_replicas = n_servers // self.num_partitions
-        
+
         # Split queries among servers
         self.results_list = []  # Reset results list
-        
+
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
             # Calculate base batch size and remainder
             num_queries = len(queries)
             base_batch_size = num_queries // num_replicas
             remainder = num_queries % num_replicas
-            
+
             for i in range(num_replicas):
                 futures = []
                 # Calculate batch size for this partition
                 batch_size = base_batch_size + (1 if i < remainder else 0)
                 if batch_size == 0:
                     continue
-                    
+
                 # Get queries for this partition
                 start_idx = i * base_batch_size + min(i, remainder)
                 end_idx = start_idx + batch_size
                 queries_for_partition_i = queries[start_idx:end_idx]
-                
+
                 # Submit to all servers handling this partition
                 servers_to_submit = [value[i] for value in self.partition_to_server_map.values()]
                 for server in servers_to_submit:
@@ -304,10 +327,14 @@ class DistributedIndex:
                     futures.append(future)
                 results = [future.result() for future in futures]
                 self.results_list.append(results)
-        
+
         # Merge results
-        final_results = self._merge_search_results_dist(self.results_list)
-        return final_results
+        start = time.perf_counter()
+        r = self._merge_search_results_dist(self.results_list)
+        end = time.perf_counter()
+        self.stats["num_merges"] += 1
+        self.stats["time_merges"] += end - start
+        return r
 
     def search_sync(self, queries: torch.Tensor) -> torch.Tensor:
         """
@@ -325,7 +352,7 @@ class DistributedIndex:
         """
         for index in self.indices:
             index.add(vectors, ids)
-        
+
     def remove(self, ids: torch.Tensor):
         """
         Remove vectors from all servers' indices.
@@ -335,7 +362,7 @@ class DistributedIndex:
         """
         for index in self.indices:
             index.remove(ids)
-        
+
     def _merge_search_results(self, results: List[torch.Tensor]) -> torch.Tensor:
         """
         Merge search results from multiple servers.
@@ -365,12 +392,12 @@ class DistributedIndex:
         """
         full_ids = []
         self.top_k_server_counts.clear()  # Reset the counts
-        
+
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             ids = [result.ids for result in results_list[i]]
             distances = [result.distances for result in results_list[i]]
-            
+
             # Create a mapping of ID to server index for each query
             id_to_server = []
             for query_idx in range(ids[0].size(0)):
@@ -379,26 +406,26 @@ class DistributedIndex:
                     for result_idx in range(server_ids.size(1)):
                         query_id_to_server[server_ids[query_idx, result_idx].item()] = server_idx
                 id_to_server.append(query_id_to_server)
-            
+
             # Concatenate along the k dimension (dim=1)
             ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
             distances = torch.cat(distances, dim=1)  # shape: (num_queries, total_k)
-            
+
             # Sort by distances and get top k
             sorted_indices = torch.argsort(distances, dim=1)
             sorted_ids = torch.gather(ids, 1, sorted_indices)
-            
+
             # Take top k results
             top_k_ids = sorted_ids[:, :self.k]
             full_ids.append(top_k_ids)
-            
+
             # Track which servers contributed to the top k results
             for query_idx in range(top_k_ids.size(0)):
                 for result_idx in range(top_k_ids.size(1)):
                     result_id = top_k_ids[query_idx, result_idx].item()
                     server_idx = id_to_server[query_idx][result_id]
                     self.top_k_server_counts[server_idx] += 1
-            
+
         # Concatenate results from all partitions
         final_ids = torch.cat(full_ids, dim=0)
         return final_ids
@@ -414,21 +441,21 @@ class DistributedIndex:
         """
         if not self.top_k_server_counts:
             return 0.0
-            
+
         # Convert counts to proportions
         total_results = sum(self.top_k_server_counts.values())
         if total_results == 0:
             return 0.0
-            
+
         proportions = [count / total_results for count in self.top_k_server_counts.values()]
         proportions.sort()
-        
+
         # Calculate Gini index
         n = len(proportions)
         gini_sum = 0
         for i in range(n):
             for j in range(n):
                 gini_sum += abs(proportions[i] - proportions[j])
-        
+
         gini_index = gini_sum / (2 * n * sum(proportions))
         return gini_index
