@@ -221,8 +221,8 @@ class DistributedIndex:
         start = time.perf_counter()
         r = self.indices[server_idx].search(queries, self.search_params[server_idx])
         end = time.perf_counter()
-        self.stats["num_queries"] += 1
-        self.stats["time_queries"] += end - start
+        # self.stats["num_queries"] += 1
+        # self.stats["time_queries"] += end - start
         return r
 
     def _search_single_server_dist(self, server_address: str, queries: torch.Tensor) -> torch.Tensor:
@@ -231,8 +231,8 @@ class DistributedIndex:
         index, _, search_params = self.get_index_and_params(server_address)
         r = index.search(queries, search_params)
         end = time.perf_counter()
-        self.stats["num_queries"] += 1
-        self.stats["time_queries"] += end - start
+        # self.stats["num_queries"] += 1
+        # self.stats["time_queries"] += end - start
         return r
 
     def search(self, queries: torch.Tensor) -> torch.Tensor:
