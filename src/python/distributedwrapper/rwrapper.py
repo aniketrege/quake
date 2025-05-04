@@ -80,8 +80,7 @@ class Local:
         Local._objects.append(self)
 
     def import_module(self, package, as_name=None, item=None):
-        response = self._stub.SendImport(ImportRequest(package=package, as_name=as_name, item=item, ts=time.time()))
-        print("latency", time.time() - response.ts)
+        self._stub.SendImport(ImportRequest(package=package, as_name=as_name, item=item, ts=time.time()))
 
     def register_function(self, name):
         self._functions.add(name)
