@@ -106,6 +106,8 @@ class Local:
         if not self.uuid:
             raise Exception("Object not instantiated")
 
+        ts = time.time()
+
         if action == "__getattribute__":
             try:
                 known_callable = args[0] in self._functions
@@ -117,7 +119,7 @@ class Local:
                         self._stub.SendCommand(
                             CommandRequest(
                                 uuid=self.uuid,
-                                ts=time.time(),
+                                ts=ts,
                                 method=known_name or item.__name__,
                                 payload=pickle.dumps(self._adjust_for_nonlocal(arguments, keywords)),
                             ),
@@ -131,7 +133,7 @@ class Local:
             self._stub.SendCommand(
                 CommandRequest(
                     uuid=self.uuid,
-                    ts=time.time(),
+                    ts=ts,
                     method=action,
                     payload=pickle.dumps(self._adjust_for_nonlocal(args, kwargs)),
                 ),
@@ -139,6 +141,7 @@ class Local:
         )
 
     def instantiate(self, *arguments, **keywords):
+        ts = time.time()
         if self.uuid:
             return
         adjusted_args, adjusted_kwargs, lookups = self._adjust_for_nonlocal(arguments, keywords)
@@ -146,7 +149,7 @@ class Local:
             InstanceRequest(
                 name=self._cls.__name__,
                 payload=pickle.dumps((adjusted_args, adjusted_kwargs, lookups)),
-                ts=time.time(),
+                ts=ts,
             )
         )
         print("latency", time.time() - response.ts)
