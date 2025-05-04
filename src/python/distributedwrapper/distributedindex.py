@@ -216,7 +216,8 @@ class DistributedIndex:
             if self.server_addresses[i] == server_address:
                 return self.indices[i], self.build_params[i], self.search_params[i]
 
-    def _search_single_server(self, server_idx: int, queries: torch.Tensor) -> torch.Tensor:
+    def _search_single_server(self, server_idx: int, queries: torch.Tensor, ts) -> torch.Tensor:
+        print("took to start", server_idx, time.time() - ts)
         """Helper method to perform search on a single server."""
         start = time.perf_counter()
         r = self.indices[server_idx].search(queries, self.search_params[server_idx])
@@ -258,7 +259,9 @@ class DistributedIndex:
         start_idx = 0
         futures = []
 
+        print("creating pool", time.time())
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
+            print("entered pool", time.time())
             for i in range(n_servers):
                 # Calculate number of queries for this server
                 n_queries_for_server = queries_per_server + (1 if i < remainder else 0)
@@ -270,7 +273,7 @@ class DistributedIndex:
                 server_queries = queries[start_idx:end_idx]
 
                 # Submit search task to thread pool
-                future = executor.submit(self._search_single_server, i, server_queries)
+                future = executor.submit(self._search_single_server, i, server_queries, time.time())
                 futures.append(future)
                 start_idx = end_idx
 
