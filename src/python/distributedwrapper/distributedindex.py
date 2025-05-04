@@ -20,7 +20,7 @@ class DistributedIndex:
                  search_params_kw_args: Dict[str, Any], use_kmeans: bool = False):
         """
         Initialize the DistributedIndex with a list of server addresses.
-        
+
         Args:
             server_addresses: List of server addresses in the format "host:port"
             num_partitions: Number of partitions to split the data into
@@ -93,11 +93,11 @@ class DistributedIndex:
         Prepartition the vectors and ids into num_partitions.
         If use_kmeans is True, uses FAISS k-means clustering to partition the vectors.
         Otherwise, splits the vectors evenly across partitions.
-        
+
         Args:
             vectors: Tensor of vectors to partition
             ids: Tensor of vector IDs to partition
-            
+
         Returns:
             Tuple[List[torch.Tensor], List[torch.Tensor]]: Lists of partitioned vectors and IDs
         """
@@ -157,7 +157,7 @@ class DistributedIndex:
     def build(self, vectors: torch.Tensor, ids: torch.Tensor):
         """
         Build the index on all servers. Each server gets a full copy of the index.
-        
+
         Args:
             vectors: Tensor of vectors to index
             ids: Tensor of vector IDs
@@ -221,8 +221,8 @@ class DistributedIndex:
         start = time.perf_counter()
         r = self.indices[server_idx].search(queries, self.search_params[server_idx])
         end = time.perf_counter()
-        # self.stats["num_queries"] += 1
-        # self.stats["time_queries"] += end - start
+        self.stats["num_queries"] += 1
+        self.stats["time_queries"] += end - start
         return r
 
     def _search_single_server_dist(self, server_address: str, queries: torch.Tensor) -> torch.Tensor:
@@ -231,17 +231,17 @@ class DistributedIndex:
         index, _, search_params = self.get_index_and_params(server_address)
         r = index.search(queries, search_params)
         end = time.perf_counter()
-        # self.stats["num_queries"] += 1
-        # self.stats["time_queries"] += end - start
+        self.stats["num_queries"] += 1
+        self.stats["time_queries"] += end - start
         return r
 
     def search(self, queries: torch.Tensor) -> torch.Tensor:
         """
         Distribute queries across servers in parallel and merge results.
-        
+
         Args:
             queries: Tensor of query vectors
-            
+
         Returns:
             Search results from all servers merged and sorted
         """
@@ -288,10 +288,10 @@ class DistributedIndex:
     def search_dist(self, queries: torch.Tensor) -> torch.Tensor:
         """
         Distribute queries across servers in parallel and merge results.
-        
+
         Args:
             queries: Tensor of query vectors
-            
+
         Returns:
             Search results from all servers merged and sorted
         """
@@ -345,7 +345,7 @@ class DistributedIndex:
     def add(self, vectors: torch.Tensor, ids: torch.Tensor):
         """
         Add vectors to all servers' indices.
-        
+
         Args:
             vectors: Tensor of vectors to add
             ids: Tensor of vector IDs
@@ -356,7 +356,7 @@ class DistributedIndex:
     def remove(self, ids: torch.Tensor):
         """
         Remove vectors from all servers' indices.
-        
+
         Args:
             ids: Tensor of vector IDs to remove
         """
@@ -367,14 +367,14 @@ class DistributedIndex:
         """
         Merge search results from multiple servers.
         Since each server handled a different subset of queries, we just concatenate the results.
-        
+
         Args:
             results: A list of type distributedwrapper.rwrapper.Local, we can obtain the tensors from the ids
-            
+
         Returns:
             Concatenated search results
         """
-        # 
+        #
         ids = [result.ids for result in results]
         ids = torch.cat(ids, dim=0)
         return ids
@@ -383,29 +383,18 @@ class DistributedIndex:
         """
         Merge search results from multiple servers.
         Since each server handled a different subset of queries, we just concatenate the results.
-        
+
         Args:
             results: A list of type distributedwrapper.rwrapper.Local, we can obtain the tensors from the ids
-            
+
         Returns:
             Concatenated search results of shape (num_queries, k)
         """
         full_ids = []
-        self.top_k_server_counts.clear()  # Reset the counts
-
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             ids = [result.ids for result in results_list[i]]
             distances = [result.distances for result in results_list[i]]
-
-            # Create a mapping of ID to server index for each query
-            id_to_server = []
-            for query_idx in range(ids[0].size(0)):
-                query_id_to_server = {}
-                for server_idx, server_ids in enumerate(ids):
-                    for result_idx in range(server_ids.size(1)):
-                        query_id_to_server[server_ids[query_idx, result_idx].item()] = server_idx
-                id_to_server.append(query_id_to_server)
 
             # Concatenate along the k dimension (dim=1)
             ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
@@ -419,13 +408,6 @@ class DistributedIndex:
             top_k_ids = sorted_ids[:, :self.k]
             full_ids.append(top_k_ids)
 
-            # Track which servers contributed to the top k results
-            for query_idx in range(top_k_ids.size(0)):
-                for result_idx in range(top_k_ids.size(1)):
-                    result_id = top_k_ids[query_idx, result_idx].item()
-                    server_idx = id_to_server[query_idx][result_id]
-                    self.top_k_server_counts[server_idx] += 1
-
         # Concatenate results from all partitions
         final_ids = torch.cat(full_ids, dim=0)
         return final_ids
@@ -435,27 +417,28 @@ class DistributedIndex:
         Calculate the Gini index for the distribution of top k results across servers.
         A Gini index of 0 indicates perfect equality (results evenly distributed),
         while 1 indicates maximum inequality (all results from a single server).
-        
+
         Returns:
             float: Gini index between 0 and 1
         """
-        if not self.top_k_server_counts:
-            return 0.0
-
-        # Convert counts to proportions
-        total_results = sum(self.top_k_server_counts.values())
-        if total_results == 0:
-            return 0.0
-
-        proportions = [count / total_results for count in self.top_k_server_counts.values()]
-        proportions.sort()
-
-        # Calculate Gini index
-        n = len(proportions)
-        gini_sum = 0
-        for i in range(n):
-            for j in range(n):
-                gini_sum += abs(proportions[i] - proportions[j])
-
-        gini_index = gini_sum / (2 * n * sum(proportions))
-        return gini_index
+        return 0
+        # if not self.top_k_server_counts:
+        #     return 0.0
+        #
+        # # Convert counts to proportions
+        # total_results = sum(self.top_k_server_counts.values())
+        # if total_results == 0:
+        #     return 0.0
+        #
+        # proportions = [count / total_results for count in self.top_k_server_counts.values()]
+        # proportions.sort()
+        #
+        # # Calculate Gini index
+        # n = len(proportions)
+        # gini_sum = 0
+        # for i in range(n):
+        #     for j in range(n):
+        #         gini_sum += abs(proportions[i] - proportions[j])
+        #
+        # gini_index = gini_sum / (2 * n * sum(proportions))
+        # return gini_index
