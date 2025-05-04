@@ -1,6 +1,7 @@
 import atexit
 import importlib
 import pickle
+import time
 from collections.abc import Callable
 from concurrent import futures
 from typing import TypeVar, Generic, Type, Protocol, List, Dict
@@ -85,6 +86,7 @@ class Local:
         self._functions.add(name)
 
     def _decode_response(self, response: CommandResponse):
+        print("you've got mail", response, time.time())
         if response.direct:
             return pickle.loads(response.result)
 
@@ -112,26 +114,34 @@ class Local:
                 if known_callable or isinstance(item, Callable):
                     # print(f"call [{known_name or item.__name__}]:, args={args}, kwargs={kwargs}")
                     return lambda *arguments, **keywords: self._decode_response(
-                        self._stub.SendCommand(
-                            CommandRequest(
-                                uuid=self.uuid,
-                                method=known_name or item.__name__,
-                                payload=pickle.dumps(self._adjust_for_nonlocal(arguments, keywords)),
-                            ),
-                        )
+                        self._send1(item, known_name, arguments, keywords)
                     )
             except AttributeError:
                 pass
 
         # print(f"prop [{action}]:, args={args}, kwargs={kwargs}")
         return self._decode_response(
-            self._stub.SendCommand(
-                CommandRequest(
-                    uuid=self.uuid,
-                    method=action,
-                    payload=pickle.dumps(self._adjust_for_nonlocal(args, kwargs)),
-                ),
-            )
+            self.send2(action, args, kwargs)
+        )
+
+    def send2(self, action, args, kwargs):
+        print("sending", time.time())
+        return self._stub.SendCommand(
+            CommandRequest(
+                uuid=self.uuid,
+                method=action,
+                payload=pickle.dumps(self._adjust_for_nonlocal(args, kwargs)),
+            ),
+        )
+
+    def _send1(self, item, known_name, arguments, keywords):
+        print("sending", time.time())
+        return self._stub.SendCommand(
+            CommandRequest(
+                uuid=self.uuid,
+                method=known_name or item.__name__,
+                payload=pickle.dumps(self._adjust_for_nonlocal(arguments, keywords)),
+            ),
         )
 
     def instantiate(self, *arguments, **keywords):
@@ -229,6 +239,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         return args, kwargs
 
     def SendCommand(self, request: CommandRequest, context):
+        print("you've got mail", request, time.time())
         # print("Command request:", request)
         # print("Payload:", pickle.loads(request.payload))
         # print("Got command...")
@@ -239,11 +250,13 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         try:
             pickled = pickle.dumps(result)
             # print("...returning a direct result")
+            print("sending", request, time.time())
             return CommandResponse(result=pickled, direct=True)
         except Exception:
             # print("...returning an indirect result")
             self.id += 1
             self.objects[self.id] = result
+            print("sending", request, time.time())
             return CommandResponse(result=pickle.dumps(self.id), direct=False)
 
     def SendImport(self, request: ImportRequest, context):
