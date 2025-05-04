@@ -226,8 +226,9 @@ class DistributedIndex:
         self.stats["time_queries"] += end - start
         return r
 
-    def _search_single_server_dist(self, server_address: str, queries: torch.Tensor) -> torch.Tensor:
+    def _search_single_server_dist(self, server_address: str, queries: torch.Tensor, ts) -> torch.Tensor:
         """Helper method to perform search on a single server."""
+        print("took to start", server_address, time.time() - ts)
         start = time.perf_counter()
         index, _, search_params = self.get_index_and_params(server_address)
         r = index.search(queries, search_params)
@@ -305,7 +306,9 @@ class DistributedIndex:
         # Split queries among servers
         self.results_list = []  # Reset results list
 
+        print("creating pool", time.time())
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
+            print("entered pool", time.time())
             # Calculate base batch size and remainder
             num_queries = len(queries)
             base_batch_size = num_queries // num_replicas
@@ -326,7 +329,7 @@ class DistributedIndex:
                 # Submit to all servers handling this partition
                 servers_to_submit = [value[i] for value in self.partition_to_server_map.values()]
                 for server in servers_to_submit:
-                    future = executor.submit(self._search_single_server_dist, server, queries_for_partition_i)
+                    future = executor.submit(self._search_single_server_dist, server, queries_for_partition_i, time.time())
                     futures.append(future)
                 results = [future.result() for future in futures]
                 self.results_list.append(results)
