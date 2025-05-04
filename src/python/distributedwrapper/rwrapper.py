@@ -239,7 +239,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         # print("Command request:", request)
         # print("Payload:", pickle.loads(request.payload))
         # print("Got command...")
-        print("latency", time.time() - request.ts)
+        print("latency", time.time() - request.ts, request.ts, time.time())
         obj = self.objects[request.uuid]
         args, kwargs = self._adjust_for_nonlocal(request)
         f = getattr(obj, request.method)
