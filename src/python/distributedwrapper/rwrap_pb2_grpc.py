@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in protos/rwrap_pb2_grpc.py depends on'
+        + f' but the generated code in rwrap_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,23 +36,23 @@ class WrapStub(object):
         """
         self.SendInstance = channel.unary_unary(
                 '/Wrap/SendInstance',
-                request_serializer=protos_dot_rwrap__pb2.InstanceRequest.SerializeToString,
-                response_deserializer=protos_dot_rwrap__pb2.InstanceResponse.FromString,
+                request_serializer=rwrap__pb2.InstanceRequest.SerializeToString,
+                response_deserializer=rwrap__pb2.InstanceResponse.FromString,
                 _registered_method=True)
         self.SendCommand = channel.unary_unary(
                 '/Wrap/SendCommand',
-                request_serializer=protos_dot_rwrap__pb2.CommandRequest.SerializeToString,
-                response_deserializer=protos_dot_rwrap__pb2.CommandResponse.FromString,
+                request_serializer=rwrap__pb2.CommandRequest.SerializeToString,
+                response_deserializer=rwrap__pb2.CommandResponse.FromString,
                 _registered_method=True)
         self.SendImport = channel.unary_unary(
                 '/Wrap/SendImport',
-                request_serializer=protos_dot_rwrap__pb2.ImportRequest.SerializeToString,
-                response_deserializer=protos_dot_rwrap__pb2.ImportResponse.FromString,
+                request_serializer=rwrap__pb2.ImportRequest.SerializeToString,
+                response_deserializer=rwrap__pb2.ImportResponse.FromString,
                 _registered_method=True)
         self.SendCleanup = channel.unary_unary(
                 '/Wrap/SendCleanup',
-                request_serializer=protos_dot_rwrap__pb2.CleanupRequest.SerializeToString,
-                response_deserializer=protos_dot_rwrap__pb2.CleanupResponse.FromString,
+                request_serializer=rwrap__pb2.CleanupRequest.SerializeToString,
+                response_deserializer=rwrap__pb2.CleanupResponse.FromString,
                 _registered_method=True)
 
 
@@ -88,23 +88,23 @@ def add_WrapServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SendInstance': grpc.unary_unary_rpc_method_handler(
                     servicer.SendInstance,
-                    request_deserializer=protos_dot_rwrap__pb2.InstanceRequest.FromString,
-                    response_serializer=protos_dot_rwrap__pb2.InstanceResponse.SerializeToString,
+                    request_deserializer=rwrap__pb2.InstanceRequest.FromString,
+                    response_serializer=rwrap__pb2.InstanceResponse.SerializeToString,
             ),
             'SendCommand': grpc.unary_unary_rpc_method_handler(
                     servicer.SendCommand,
-                    request_deserializer=protos_dot_rwrap__pb2.CommandRequest.FromString,
-                    response_serializer=protos_dot_rwrap__pb2.CommandResponse.SerializeToString,
+                    request_deserializer=rwrap__pb2.CommandRequest.FromString,
+                    response_serializer=rwrap__pb2.CommandResponse.SerializeToString,
             ),
             'SendImport': grpc.unary_unary_rpc_method_handler(
                     servicer.SendImport,
-                    request_deserializer=protos_dot_rwrap__pb2.ImportRequest.FromString,
-                    response_serializer=protos_dot_rwrap__pb2.ImportResponse.SerializeToString,
+                    request_deserializer=rwrap__pb2.ImportRequest.FromString,
+                    response_serializer=rwrap__pb2.ImportResponse.SerializeToString,
             ),
             'SendCleanup': grpc.unary_unary_rpc_method_handler(
                     servicer.SendCleanup,
-                    request_deserializer=protos_dot_rwrap__pb2.CleanupRequest.FromString,
-                    response_serializer=protos_dot_rwrap__pb2.CleanupResponse.SerializeToString,
+                    request_deserializer=rwrap__pb2.CleanupRequest.FromString,
+                    response_serializer=rwrap__pb2.CleanupResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -132,8 +132,8 @@ class Wrap(object):
             request,
             target,
             '/Wrap/SendInstance',
-            protos_dot_rwrap__pb2.InstanceRequest.SerializeToString,
-            protos_dot_rwrap__pb2.InstanceResponse.FromString,
+            rwrap__pb2.InstanceRequest.SerializeToString,
+            rwrap__pb2.InstanceResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -159,8 +159,8 @@ class Wrap(object):
             request,
             target,
             '/Wrap/SendCommand',
-            protos_dot_rwrap__pb2.CommandRequest.SerializeToString,
-            protos_dot_rwrap__pb2.CommandResponse.FromString,
+            rwrap__pb2.CommandRequest.SerializeToString,
+            rwrap__pb2.CommandResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -186,8 +186,8 @@ class Wrap(object):
             request,
             target,
             '/Wrap/SendImport',
-            protos_dot_rwrap__pb2.ImportRequest.SerializeToString,
-            protos_dot_rwrap__pb2.ImportResponse.FromString,
+            rwrap__pb2.ImportRequest.SerializeToString,
+            rwrap__pb2.ImportResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -213,8 +213,8 @@ class Wrap(object):
             request,
             target,
             '/Wrap/SendCleanup',
-            protos_dot_rwrap__pb2.CleanupRequest.SerializeToString,
-            protos_dot_rwrap__pb2.CleanupResponse.FromString,
+            rwrap__pb2.CleanupRequest.SerializeToString,
+            rwrap__pb2.CleanupResponse.FromString,
             options,
             channel_credentials,
             insecure,
