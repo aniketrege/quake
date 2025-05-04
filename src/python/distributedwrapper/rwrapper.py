@@ -107,6 +107,7 @@ class Local:
             raise Exception("Object not instantiated")
 
         ts = time.time()
+        print("ts", ts)
 
         if action == "__getattribute__":
             try:
@@ -142,6 +143,7 @@ class Local:
 
     def instantiate(self, *arguments, **keywords):
         ts = time.time()
+        print("ts", ts)
         if self.uuid:
             return
         adjusted_args, adjusted_kwargs, lookups = self._adjust_for_nonlocal(arguments, keywords)
