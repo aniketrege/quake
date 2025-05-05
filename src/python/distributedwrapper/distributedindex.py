@@ -431,22 +431,25 @@ class DistributedIndex:
         """
         full_ids = []
         for i in range(len(results_list)):
-            # Get all IDs and distances for this partition
-            print("!START ids distances", time.time())
-            ids = [result[0] for result in results_list[i]]
-            print("!END ids distances", time.time())
-            print("!START collecting distances", time.time())
-            distances = [result[1] for result in results_list[i]]
-            print("!END collecting distances", time.time())
-
             print("!START processing results #", i, time.time())
+
+            # Get all IDs and distances for this partition
+            print("!START get ids, distances #", i, time.time())
+            ids = [result[0] for result in results_list[i]]
+            distances = [result[1] for result in results_list[i]]
+            print("!STOP get ids, distances #", i, time.time())
+
+            print("!START concat #", i, time.time())
             # Concatenate along the k dimension (dim=1)
             ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
             distances = torch.cat(distances, dim=1)  # shape: (num_queries, total_k)
+            print("!END concat #", i, time.time())
 
             # Sort by distances and get top k
+            print("!START sort #", i, time.time())
             sorted_indices = torch.argsort(distances, dim=1)
             sorted_ids = torch.gather(ids, 1, sorted_indices)
+            print("!END sort #", i, time.time())
 
             # Take top k results
             top_k_ids = sorted_ids[:, : self.k]

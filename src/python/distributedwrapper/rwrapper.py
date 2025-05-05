@@ -261,6 +261,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         # print("Got command...")
         print("latency", time.time() - request.ts, request.ts, time.time())
         print("!END command request", request.name, time.time())
+        print("!START command", request.name, time.time())
         obj = self.objects[request.uuid]
         args, kwargs = self._adjust_for_nonlocal(request)
         f = getattr(obj, request.method)
@@ -268,12 +269,14 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         try:
             pickled = pickle.dumps(result)
             # print("...returning a direct result")
+            print("!END command", request.name, time.time())
             print("!START command response", request.name, time.time())
             return CommandResponse(result=pickled, direct=True, ts=time.time(), name=request.name)
         except Exception:
             # print("...returning an indirect result")
             self.id += 1
             self.objects[self.id] = result
+            print("!END command", request.name, time.time())
             print("!START command response", request.name, time.time())
             return CommandResponse(result=pickle.dumps(self.id), direct=False, ts=time.time(), name=request.name)
 
