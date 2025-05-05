@@ -15,11 +15,13 @@ message InstanceRequest {
   required string name = 1;
   required bytes payload = 2;
   required double ts = 3;
+  required string rname = 4;
 }
 
 message InstanceResponse {
   required uint32 uuid = 1;
   required double ts = 2;
+  required string rname = 3;
 }
 
 message CommandRequest {
@@ -27,12 +29,14 @@ message CommandRequest {
   required string method = 2;
   required bytes payload = 3;
   required double ts = 4;
+  required string name = 5;
 }
 
 message CommandResponse {
   required bytes result = 1;
   required bool direct = 2;
   required double ts = 3;
+  required string name = 4;
 }
 
 message ImportRequest {

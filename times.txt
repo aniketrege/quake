@@ -1,223 +1,194 @@
-!START search 1746405862.2507234
-!START thread pool create 1746405862.2507439
-!END thread pool create 1746405862.2508383
-!START submitting job # node1:50053 1746405862.2511034
-!START start job # node1:50053 1746405862.2511296
-took to start node1:50053 0.00030994415283203125
-!END submitting job # node1:50053 1746405862.251507
-!END start job # node1:50053 1746405862.2515476
-!START submitting job # node1:50052 1746405862.2515922
-!START run job # node1:50053 1746405862.25164
-!START start job # node1:50052 1746405862.2516828
-ts 1746405862.2517736
-took to start node1:50052 0.00022983551025390625
-!END submitting job # node1:50052 1746405862.252132
-!END start job # node1:50052 1746405862.2521787
-!START submitting job # node3:50053 1746405862.2522247
-!START run job # node1:50052 1746405862.252274
-!START start job # node3:50053 1746405862.2523258
-ts 1746405862.2523968
-!START command request __getattribute__ 1746405862.2521014
-took to start node3:50053 0.0002617835998535156
-!END start job # node3:50053 1746405862.2675807
-!START run job # node3:50053 1746405862.2687283
-!END submitting job # node3:50053 1746405862.26173
-ts 1746405862.2687836
-!START submitting job # node3:50052 1746405862.2688348
-!START command request __getattribute__ 1746405862.268883
-!START start job # node3:50052 1746405862.268918
-!START command request __getattribute__ 1746405862.252608
-took to start node3:50052 0.009319067001342773
-!END start job # node3:50052 1746405862.3093278
-!START run job # node3:50052 1746405862.3107085
-!END submitting job # node3:50052 1746405862.2952962
-ts 1746405862.310752
-!START submitting job # node2:50052 1746405862.3108037
-!START command request __getattribute__ 1746405862.3108447
-!START start job # node2:50052 1746405862.3108873
-took to start node2:50052 0.007844209671020508
-!END start job # node2:50052 1746405862.3305552
-!START run job # node2:50052 1746405862.3305798
-!END submitting job # node2:50052 1746405862.3290887
-ts 1746405862.3306081
-!START submitting job # node2:50053 1746405862.3306594
-!START command request __getattribute__ 1746405862.3307066
-!START start job # node2:50053 1746405862.3307517
-took to start node2:50053 0.006710529327392578
-!END submitting job # node2:50053 1746405862.350214
-!END start job # node2:50053 1746405862.3502789
-!START submitting job # node1:50054 1746405862.3503273
-!START run job # node2:50053 1746405862.350358
-!START start job # node1:50054 1746405862.3503885
-ts 1746405862.3504343
-!START command request __getattribute__ 1746405862.350705
-took to start node1:50054 0.009543180465698242
-!END start job # node1:50054 1746405862.3672016
-!START run job # node1:50054 1746405862.3672397
-ts 1746405862.3672779
-!START command request __getattribute__ 1746405862.3672996
-!END submitting job # node1:50054 1746405862.3766172
-!START submitting job # node2:50054 1746405862.376664
-!START start job # node2:50054 1746405862.3829517
-took to start node2:50054 0.0004181861877441406
-!END submitting job # node2:50054 1746405862.384649
-!END start job # node2:50054 1746405862.3846896
-!START submitting job # node3:50054 1746405862.3847344
-!START run job # node2:50054 1746405862.384778
-!START start job # node3:50054 1746405862.3848252
-ts 1746405862.384909
-took to start node3:50054 0.00024175643920898438
-!END submitting job # node3:50054 1746405862.3852909
-!END start job # node3:50054 1746405862.3853374
-!START command request __getattribute__ 1746405862.385258
-!START run job # node3:50054 1746405862.385436
-ts 1746405862.400107
-!START command request __getattribute__ 1746405862.405568
-latency 0.003453493118286133
-!END command response search 1746405863.1851137
-!END run job # node3:50053 1746405863.1853402
-latency 0.0035555362701416016
-!END command response search 1746405863.1910894
-!END run job # node1:50053 1746405863.1912498
-latency 0.0029761791229248047
-!END command response search 1746405863.2750523
-!END run job # node2:50053 1746405863.2752025
-latency 0.0027942657470703125
-!END command response search 1746405863.2935417
-!END run job # node1:50052 1746405863.2937288
-latency 0.0028696060180664062
-!END command response search 1746405863.3366468
-!END run job # node3:50052 1746405863.3368285
-latency 0.0029501914978027344
-!END command response search 1746405863.3839605
-!END run job # node1:50054 1746405863.3841224
-latency 0.002760171890258789
-!END command response search 1746405863.400637
-!END run job # node3:50054 1746405863.400824
-latency 0.004172801971435547
-!END command response search 1746405863.4031022
-!END run job # node2:50052 1746405863.4032874
-latency 0.0028018951416015625
-!END command response search 1746405863.4183474
-!END run job # node2:50054 1746405863.418495
-ts 1746405863.4194884
-!START command request __getattribute__ 1746405863.4195588
-latency 0.0052988529205322266
-!END command response __getattribute__ 1746405863.4276001
-ts 1746405863.4337506
-!START command request __getattribute__ 1746405863.4338
-latency 0.003924369812011719
-!END command response __getattribute__ 1746405863.4403589
-ts 1746405863.4413157
-!START command request __getattribute__ 1746405863.4413614
-latency 0.003259420394897461
-!END command response __getattribute__ 1746405863.4469178
-ts 1746405863.4487243
-!START command request __getattribute__ 1746405863.4487698
-latency 0.0035429000854492188
-!END command response __getattribute__ 1746405863.4548275
-ts 1746405863.4566407
-!START command request __getattribute__ 1746405863.4566872
-latency 0.004413127899169922
-!END command response __getattribute__ 1746405863.463524
-ts 1746405863.46533
-!START command request __getattribute__ 1746405863.4653747
-latency 0.00331878662109375
-!END command response __getattribute__ 1746405863.4713907
-ts 1746405863.4732249
-!START command request __getattribute__ 1746405863.4732726
-latency 0.003280162811279297
-!END command response __getattribute__ 1746405863.4788506
-ts 1746405863.4807143
-!START command request __getattribute__ 1746405863.480763
-latency 0.0040302276611328125
-!END command response __getattribute__ 1746405863.4869673
-ts 1746405863.48879
-!START command request __getattribute__ 1746405863.4888349
-latency 0.00489497184753418
-!END command response __getattribute__ 1746405863.4960034
-!START collecting results 1746405863.4968963
-ts 1746405863.4969392
-!START command request __getattribute__ 1746405863.4969637
-latency 0.0016226768493652344
-!END command response __getattribute__ 1746405863.500371
-ts 1746405863.5010839
-!START command request __getattribute__ 1746405863.5011318
-latency 0.0015866756439208984
-!END command response __getattribute__ 1746405863.5045898
-ts 1746405863.5052822
-!START command request __getattribute__ 1746405863.505325
-latency 0.0016133785247802734
-!END command response __getattribute__ 1746405863.5085213
-ts 1746405863.5097268
-!START command request __getattribute__ 1746405863.5097709
-latency 0.0015301704406738281
-!END command response __getattribute__ 1746405863.5130742
-ts 1746405863.514258
-!START command request __getattribute__ 1746405863.5143025
-latency 0.0015392303466796875
-!END command response __getattribute__ 1746405863.5174644
-ts 1746405863.5181482
-!START command request __getattribute__ 1746405863.5181932
-latency 0.0016129016876220703
-!END command response __getattribute__ 1746405863.5214903
-ts 1746405863.5221958
-!START command request __getattribute__ 1746405863.5222387
-latency 0.001617431640625
-!END command response __getattribute__ 1746405863.5256906
-ts 1746405863.5268326
-!START command request __getattribute__ 1746405863.5268757
-latency 0.0015377998352050781
-!END command response __getattribute__ 1746405863.5300584
-ts 1746405863.5317085
-!START command request __getattribute__ 1746405863.5317533
-latency 0.0015988349914550781
-!END command response __getattribute__ 1746405863.5350788
-!END collecting results 1746405863.536219
-!START processing results # 0 1746405863.5362525
-!END processing results # 0 1746405863.5524802
-!START finalize results 1746405863.5525637
-!END finalize results 1746405863.5527873
-!END search 1746405863.5559678
+!START search 1746406919.14956
+!START thread pool create 1746406919.1495838
+!END thread pool create 1746406919.1496677
+!START submitting job # node1:50052 1746406919.149958
+!START start job # node1:50052 1746406919.1499827
+took to start node1:50052 0.00031495094299316406
+!END submitting job # node1:50052 1746406919.1503665
+!END start job # node1:50052 1746406919.1504023
+!START submitting job # node2:50052 1746406919.1504464
+!START run job # node1:50052 1746406919.1504893
+!START start job # node2:50052 1746406919.150526
+ts 1746406919.1505947
+!START command request __getattribute__ 2 1746406919.1508114
+took to start node2:50052 0.0002925395965576172
+!END start job # node2:50052 1746406919.166177
+!START run job # node2:50052 1746406919.16735
+!END submitting job # node2:50052 1746406919.1604264
+ts 1746406919.1674097
+!START submitting job # node3:50052 1746406919.1674578
+!START command request __getattribute__ 2 1746406919.1674979
+!START start job # node3:50052 1746406919.1675303
+took to start node3:50052 0.0067136287689208984
+!END submitting job # node3:50052 1746406919.1852472
+!END start job # node3:50052 1746406919.185312
+!START submitting job # node2:50053 1746406919.1853588
+!START run job # node3:50052 1746406919.1853957
+!START start job # node2:50053 1746406919.1854608
+ts 1746406919.1855104
+!START command request __getattribute__ 2 1746406919.1857538
+took to start node2:50053 0.00945901870727539
+!END start job # node2:50053 1746406919.202333
+!START run job # node2:50053 1746406919.2023559
+!END submitting job # node2:50053 1746406919.1950636
+ts 1746406919.2023823
+!START submitting job # node1:50053 1746406919.2024376
+!START command request __getattribute__ 2 1746406919.2024946
+!START start job # node1:50053 1746406919.2025387
+took to start node1:50053 0.006170988082885742
+!END start job # node1:50053 1746406919.2184722
+!START run job # node1:50053 1746406919.2184951
+ts 1746406919.2185202
+!START command request __getattribute__ 2 1746406919.2185314
+!END submitting job # node1:50053 1746406919.2185724
+!START submitting job # node3:50053 1746406919.2274256
+!START start job # node3:50053 1746406919.2332692
+took to start node3:50053 0.0015354156494140625
+!END submitting job # node3:50053 1746406919.2348933
+!END start job # node3:50053 1746406919.234933
+!START submitting job # node1:50054 1746406919.23499
+!START run job # node3:50053 1746406919.23504
+!START start job # node1:50054 1746406919.235079
+ts 1746406919.235126
+!START command request __getattribute__ 2 1746406919.235365
+took to start node1:50054 0.008867263793945312
+!END start job # node1:50054 1746406919.250868
+!END submitting job # node1:50054 1746406919.2440698
+!START run job # node1:50054 1746406919.2509034
+!START submitting job # node3:50054 1746406919.2509613
+ts 1746406919.2510507
+!START start job # node3:50054 1746406919.251098
+!START command request __getattribute__ 2 1746406919.2511296
+took to start node3:50054 0.010138273239135742
+!END start job # node3:50054 1746406919.2613378
+!END submitting job # node3:50054 1746406919.2678816
+!START run job # node3:50054 1746406919.2679636
+!START submitting job # node2:50054 1746406919.2693443
+ts 1746406919.269455
+!START start job # node2:50054 1746406919.2695134
+!START command request __getattribute__ 2 1746406919.2695606
+took to start node2:50054 0.009197473526000977
+!END start job # node2:50054 1746406919.278831
+!END submitting job # node2:50054 1746406919.2848575
+!START run job # node2:50054 1746406919.284974
+ts 1746406919.2862465
+!START command request __getattribute__ 2 1746406919.286274
+latency 0.0030164718627929688
+!END command response search 2 1746406920.1110864
+!END run job # node2:50053 1746406920.1114166
+latency 0.0028581619262695312
+!END command response search 2 1746406920.1138604
+!END run job # node3:50053 1746406920.114021
+latency 0.0028095245361328125
+!END command response search 2 1746406920.1355166
+!END run job # node1:50053 1746406920.1356704
+latency 0.0034308433532714844
+!END command response search 2 1746406920.1898918
+!END run job # node1:50052 1746406920.190088
+latency 0.0028181076049804688
+!END command response search 2 1746406920.2006323
+!END run job # node2:50052 1746406920.200826
+latency 0.0028533935546875
+!END command response search 2 1746406920.205089
+!END run job # node3:50052 1746406920.2052417
+latency 0.0027658939361572266
+!END command response search 2 1746406920.2839644
+!END run job # node1:50054 1746406920.2841177
+latency 0.0007593631744384766
+!END command response search 2 1746406920.293127
+!END run job # node2:50054 1746406920.2932727
+latency 0.0027856826782226562
+!END command response search 2 1746406920.296993
+!END run job # node3:50054 1746406920.2971401
+ts 1746406920.3002098
+!START command request __getattribute__ 5 1746406920.300274
+latency 0.004324674606323242
+!END command response __getattribute__ 5 1746406920.3074188
+ts 1746406920.3135176
+!START command request __getattribute__ 5 1746406920.3135703
+latency 0.0035245418548583984
+!END command response __getattribute__ 5 1746406920.3196018
+ts 1746406920.3215137
+!START command request __getattribute__ 5 1746406920.3215616
+latency 0.003281831741333008
+!END command response __getattribute__ 5 1746406920.3273387
+ts 1746406920.3291306
+!START command request __getattribute__ 5 1746406920.329176
+latency 0.0033042430877685547
+!END command response __getattribute__ 5 1746406920.3348374
+ts 1746406920.3366487
+!START command request __getattribute__ 5 1746406920.3366952
+latency 0.003465414047241211
+!END command response __getattribute__ 5 1746406920.3450007
+ts 1746406920.3477864
+!START command request __getattribute__ 5 1746406920.3478346
+latency 0.0033414363861083984
+!END command response __getattribute__ 5 1746406920.3533132
+ts 1746406920.3561091
+!START command request __getattribute__ 5 1746406920.356155
+latency 0.0035881996154785156
+!END command response __getattribute__ 5 1746406920.3618832
+ts 1746406920.3637178
+!START command request __getattribute__ 5 1746406920.3637648
+latency 0.004011869430541992
+!END command response __getattribute__ 5 1746406920.3699665
+ts 1746406920.3717904
+!START command request __getattribute__ 5 1746406920.3718367
+latency 0.0036432743072509766
+!END command response __getattribute__ 5 1746406920.3780947
+!START collecting results 1746406920.3799527
+ts 1746406920.3800025
+!START command request __getattribute__ 5 1746406920.3800304
+latency 0.001458883285522461
+!END command response __getattribute__ 5 1746406920.383326
+ts 1746406920.384012
+!START command request __getattribute__ 5 1746406920.3840568
+latency 0.0014922618865966797
+!END command response __getattribute__ 5 1746406920.3872948
+ts 1746406920.3879945
+!START command request __getattribute__ 5 1746406920.3880432
+latency 0.0014972686767578125
+!END command response __getattribute__ 5 1746406920.3912807
+ts 1746406920.392032
+!START command request __getattribute__ 5 1746406920.392079
+latency 0.00162506103515625
+!END command response __getattribute__ 5 1746406920.3953786
+ts 1746406920.3965478
+!START command request __getattribute__ 5 1746406920.3965952
+latency 0.0016469955444335938
+!END command response __getattribute__ 5 1746406920.4000874
+ts 1746406920.401266
+!START command request __getattribute__ 5 1746406920.4013138
+latency 0.0014967918395996094
+!END command response __getattribute__ 5 1746406920.404406
+ts 1746406920.4056044
+!START command request __getattribute__ 5 1746406920.4056523
+latency 0.0015337467193603516
+!END command response __getattribute__ 5 1746406920.4090817
+ts 1746406920.410718
+!START command request __getattribute__ 5 1746406920.4107664
+latency 0.0015368461608886719
+!END command response __getattribute__ 5 1746406920.413679
+ts 1746406920.4148424
+!START command request __getattribute__ 5 1746406920.41489
+latency 0.001615285873413086
+!END command response __getattribute__ 5 1746406920.4183013
+!END collecting results 1746406920.419473
+!START processing results # 0 1746406920.419505
+!END processing results # 0 1746406920.4356494
+!START finalize results 1746406920.4357302
+!END finalize results 1746406920.4359608
+!END search 1746406920.4392471
 
-latency 0.0013308525085449219 1746404928.8539495 1746404928.8552835
-!END command request __getattribute__ 1746404928.8553221
-!START command response __getattribute__ 1746404928.8564699
-latency 0.0009562969207763672 1746404928.932594 1746404928.9335518
-!END command request __getattribute__ 1746404928.933571
-!START command response __getattribute__ 1746404928.9341867
-latency 0.0010192394256591797
-!END instance request IndexBuildParams 1746405836.8364062
-!END instance response IndexBuildParams 1746405836.8364656
-latency 0.0008900165557861328 1746405836.8369195 1746405836.8378139
-!END command request __setattr__ 1746405836.8378592
-!START command response __setattr__ 1746405836.8379219
-latency 0.0008480548858642578 1746405836.8384402 1746405836.839292
-!END command request __setattr__ 1746405836.8393369
-!START command response __setattr__ 1746405836.8393977
-latency 0.0007312297821044922
-!END instance request QuakeIndex 1746405836.9147232
-!END instance response QuakeIndex 1746405836.9147787
-latency 0.0008661746978759766
-!END instance request SearchParams 1746405836.938057
-!END instance response SearchParams 1746405836.9381075
-latency 0.0007338523864746094 1746405836.938449 1746405836.9391866
-!END command request __setattr__ 1746405836.9392304
-!START command response __setattr__ 1746405836.9392931
-latency 0.0009465217590332031 1746405836.939817 1746405836.9407678
-!END command request __setattr__ 1746405836.940811
-!START command response __setattr__ 1746405836.9408596
-latency 5.229097604751587 1746405836.9906013 1746405842.2197068
-!END command request build 1746405842.2197936
 [PartitionManager] init_partitions: Created 1 partitions.
 [PartitionManager] init_partitions: Created 1024 partitions.
-!START command response build 1746405844.3025854
-latency 0.07308530807495117 1746405862.2523968 1746405862.3254862
-!END command request search 1746405862.3255267
-!START command response search 1746405863.2906644
-latency 0.0013098716735839844 1746405863.4337506 1746405863.4350643
-!END command request __getattribute__ 1746405863.4351158
-!START command response __getattribute__ 1746405863.4363606
-latency 0.0011453628540039062 1746405863.5010839 1746405863.5022326
-!END command request __getattribute__ 1746405863.5022767
-!START command response __getattribute__ 1746405863.502935
+!START command response build 2 1746406900.6588726
+latency 0.0351109504699707 1746406919.1505947 1746406919.1857107
+!END command request search 2 1746406919.185761
+!START command response search 2 1746406920.1862712
+latency 0.0013470649719238281 1746406920.3002098 1746406920.3015616
+!END command request __getattribute__ 5 1746406920.3016827
+!START command response __getattribute__ 5 1746406920.3030121
+latency 0.0010190010070800781 1746406920.3800025 1746406920.3810256
+!END command request __getattribute__ 5 1746406920.3810716
+!START command response __getattribute__ 5 1746406920.381793
