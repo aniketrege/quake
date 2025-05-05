@@ -1,195 +1,198 @@
-=== Distributed Test ===
+== Distributed Test ===
 Using 9 servers: node1:50052, node2:50052, node3:50052, node1:50053, node2:50053, node3:50053, node1:50054, node2:50054, node3:50054
 Searching 10000 queries with k=10, nprobe=11...
-!START search 1746408535.9902802
-!START thread pool create 1746408535.9903035
-!END thread pool create 1746408535.9903862
-!START submitting job # node1:50052 1746408535.990665
-!START start job # node1:50052 1746408535.9906905
-took to start node1:50052 0.00034165382385253906
-!END submitting job # node1:50052 1746408535.9910989
-!END start job # node1:50052 1746408535.9911356
-!START submitting job # node2:50052 1746408535.99118
-!START run job # node1:50052 1746408535.9912143
-!START start job # node2:50052 1746408535.9912581
-ts 1746408535.9913318
-!START command request node1:50052 search 1746408535.9915283
-took to start node2:50052 0.009945392608642578
-!END submitting job # node2:50052 1746408536.0071313
-!END start job # node2:50052 1746408536.0072136
-!START submitting job # node1:50053 1746408536.0084288
-!START run job # node2:50052 1746408536.0084748
-!START start job # node1:50053 1746408536.008511
-ts 1746408536.008557
-!START command request node2:50052 search 1746408536.008804
-took to start node1:50053 0.010198116302490234
-!END submitting job # node1:50053 1746408536.0263402
-!END start job # node1:50053 1746408536.026427
-!START submitting job # node3:50052 1746408536.0264826
-!START run job # node1:50053 1746408536.0265272
-!START start job # node3:50052 1746408536.026574
-ts 1746408536.0266387
-!START command request node1:50053 search 1746408536.0269153
-took to start node3:50052 0.010161399841308594
-!END start job # node3:50052 1746408536.0368695
-!END submitting job # node3:50052 1746408536.0437105
-!START run job # node3:50052 1746408536.0437937
-!START submitting job # node3:50053 1746408536.0452302
-ts 1746408536.0453024
-!START start job # node3:50053 1746408536.045346
-!START command request node3:50052 search 1746408536.0453908
-took to start node3:50053 0.011220932006835938
-!END submitting job # node3:50053 1746408536.063575
-!START submitting job # node2:50053 1746408536.0649858
-!END start job # node3:50053 1746408536.0636578
-!START start job # node2:50053 1746408536.0650167
-!START run job # node3:50053 1746408536.0650885
-ts 1746408536.0654688
-!START command request node3:50053 search 1746408536.0654879
-took to start node2:50053 0.01093745231628418
-!END submitting job # node2:50053 1746408536.0829532
-!START submitting job # node1:50054 1746408536.0843349
-!END start job # node2:50053 1746408536.0830393
-!START start job # node1:50054 1746408536.0843673
-!START run job # node2:50053 1746408536.0844226
-ts 1746408536.0848134
-!START command request node2:50053 search 1746408536.0848382
-took to start node1:50054 0.005606651306152344
-!END start job # node1:50054 1746408536.0961719
-!START run job # node1:50054 1746408536.0962243
-!END submitting job # node1:50054 1746408536.1035085
-ts 1746408536.1035984
-!START submitting job # node2:50054 1746408536.1053956
-!START command request node1:50054 search 1746408536.1054974
-!START start job # node2:50054 1746408536.1055489
-took to start node2:50054 0.007550716400146484
-!END submitting job # node2:50054 1746408536.1258264
-!END start job # node2:50054 1746408536.1258974
-!START submitting job # node3:50054 1746408536.1259465
-!START run job # node2:50054 1746408536.1259868
-!START start job # node3:50054 1746408536.126025
-ts 1746408536.1260908
-!START command request node2:50054 search 1746408536.1263711
-took to start node3:50054 0.010141372680664062
-!END start job # node3:50054 1746408536.1362998
-!END submitting job # node3:50054 1746408536.1426024
-!START run job # node3:50054 1746408536.1426837
-ts 1746408536.1440914
-!START command request node3:50054 search 1746408536.1441352
-latency 0.0030858516693115234
-!END command response node1:50053 search 1746408536.9307642
-!END run job # node1:50053 1746408536.9309819
-latency 0.002862691879272461
-!END command response node2:50053 search 1746408536.9702315
-!END run job # node2:50053 1746408536.9703884
-latency 0.002908468246459961
-!END command response node3:50053 search 1746408536.9966338
-!END run job # node3:50053 1746408536.996785
-latency 0.003093719482421875
-!END command response node2:50052 search 1746408537.0325866
-!END run job # node2:50052 1746408537.0327342
-latency 0.0031974315643310547
-!END command response node1:50052 search 1746408537.0481684
-!END run job # node1:50052 1746408537.0483475
-latency 0.0028133392333984375
-!END command response node3:50052 search 1746408537.0678713
-!END run job # node3:50052 1746408537.0680234
-latency 0.002752542495727539
-!END command response node2:50054 search 1746408537.1184087
-!END run job # node2:50054 1746408537.118585
-latency 0.0027854442596435547
-!END command response node1:50054 search 1746408537.1685698
-!END run job # node1:50054 1746408537.1687448
-latency 0.0007688999176025391
-!END command response node3:50054 search 1746408537.1769807
-!END run job # node3:50054 1746408537.1771324
-ts 1746408537.1781993
-!START command request node1:50052 __getattribute__ ('ids',) {} 1746408537.1782944
-latency 0.004208803176879883
-!END command response node1:50052 __getattribute__ ('ids',) {} 1746408537.1851819
-ts 1746408537.1913555
-!START command request node2:50052 __getattribute__ ('ids',) {} 1746408537.1914148
-latency 0.0038738250732421875
-!END command response node2:50052 __getattribute__ ('ids',) {} 1746408537.1979048
-ts 1746408537.1997833
-!START command request node1:50053 __getattribute__ ('ids',) {} 1746408537.1998398
-latency 0.0035059452056884766
-!END command response node1:50053 __getattribute__ ('ids',) {} 1746408537.2056952
-ts 1746408537.2075331
-!START command request node3:50052 __getattribute__ ('ids',) {} 1746408537.2075896
-latency 0.0037376880645751953
-!END command response node3:50052 __getattribute__ ('ids',) {} 1746408537.2138448
-ts 1746408537.2156827
-!START command request node3:50053 __getattribute__ ('ids',) {} 1746408537.2157404
-latency 0.0035402774810791016
-!END command response node3:50053 __getattribute__ ('ids',) {} 1746408537.2217238
-ts 1746408537.2235596
-!START command request node2:50053 __getattribute__ ('ids',) {} 1746408537.223614
-latency 0.003350496292114258
-!END command response node2:50053 __getattribute__ ('ids',) {} 1746408537.2293406
-ts 1746408537.2311647
-!START command request node1:50054 __getattribute__ ('ids',) {} 1746408537.23122
-latency 0.0037310123443603516
-!END command response node1:50054 __getattribute__ ('ids',) {} 1746408537.2376623
-ts 1746408537.240374
-!START command request node2:50054 __getattribute__ ('ids',) {} 1746408537.2404296
-latency 0.0037043094635009766
-!END command response node2:50054 __getattribute__ ('ids',) {} 1746408537.2464144
-ts 1746408537.2491248
-!START command request node3:50054 __getattribute__ ('ids',) {} 1746408537.2491796
-latency 0.0036606788635253906
-!END command response node3:50054 __getattribute__ ('ids',) {} 1746408537.2553687
-!START collecting results 1746408537.2571828
-ts 1746408537.2572339
-!START command request node1:50052 __getattribute__ ('distances',) {} 1746408537.2572696
-latency 0.001819610595703125
-!END command response node1:50052 __getattribute__ ('distances',) {} 1746408537.2608926
-ts 1746408537.2616227
-!START command request node2:50052 __getattribute__ ('distances',) {} 1746408537.2616763
-latency 0.0015482902526855469
-!END command response node2:50052 __getattribute__ ('distances',) {} 1746408537.2648494
-ts 1746408537.2655764
-!START command request node1:50053 __getattribute__ ('distances',) {} 1746408537.26563
-latency 0.001466512680053711
-!END command response node1:50053 __getattribute__ ('distances',) {} 1746408537.2686386
-ts 1746408537.2693403
-!START command request node3:50052 __getattribute__ ('distances',) {} 1746408537.2693913
-latency 0.0016696453094482422
-!END command response node3:50052 __getattribute__ ('distances',) {} 1746408537.2729096
-ts 1746408537.2741034
-!START command request node3:50053 __getattribute__ ('distances',) {} 1746408537.2741597
-latency 0.0016150474548339844
-!END command response node3:50053 __getattribute__ ('distances',) {} 1746408537.2773209
-ts 1746408537.2785208
-!START command request node2:50053 __getattribute__ ('distances',) {} 1746408537.2785761
-latency 0.0018076896667480469
-!END command response node2:50053 __getattribute__ ('distances',) {} 1746408537.282048
-ts 1746408537.2832386
-!START command request node1:50054 __getattribute__ ('distances',) {} 1746408537.2832937
-latency 0.0016393661499023438
-!END command response node1:50054 __getattribute__ ('distances',) {} 1746408537.2865722
-ts 1746408537.2877436
-!START command request node2:50054 __getattribute__ ('distances',) {} 1746408537.2877991
-latency 0.0017886161804199219
-!END command response node2:50054 __getattribute__ ('distances',) {} 1746408537.2919724
-ts 1746408537.2931385
-!START command request node3:50054 __getattribute__ ('distances',) {} 1746408537.2931936
-latency 0.001638174057006836
-!END command response node3:50054 __getattribute__ ('distances',) {} 1746408537.2964995
-!END collecting results 1746408537.297705
-!START processing results # 0 1746408537.2977402
-!END processing results # 0 1746408537.3131926
-!START finalize results 1746408537.3132725
-!END finalize results 1746408537.3135316
-!END search 1746408537.316144
+!START search 1746412642.3200467
+!START thread pool create 1746412642.3200593
+!END thread pool create 1746412642.3201098
+!START submitting job # node1:50052 1746412642.3202863
+!START start job # node1:50052 1746412642.3202999
+took to start node1:50052 0.0002732276916503906
+!END submitting job # node1:50052 1746412642.3206217
+!END start job # node1:50052 1746412642.3206542
+!START submitting job # node2:50052 1746412642.3206844
+!START run job # node1:50052 1746412642.3207152
+!START start job # node2:50052 1746412642.3207386
+ts 1746412642.3208055
+!START command request node1:50052 search 1746412642.3209455
+took to start node2:50052 0.009554624557495117
+!END submitting job # node2:50052 1746412642.3362634
+!END start job # node2:50052 1746412642.336319
+!START submitting job # node3:50052 1746412642.3375025
+!START run job # node2:50052 1746412642.3375616
+!START start job # node3:50052 1746412642.337609
+ts 1746412642.3376799
+!START command request node2:50052 search 1746412642.3378367
+took to start node3:50052 0.008786916732788086
+!END start job # node3:50052 1746412642.3523982
+!END submitting job # node3:50052 1746412642.346536
+!START submitting job # node2:50053 1746412642.353519
+!START run job # node3:50052 1746412642.3524358
+ts 1746412642.3536503
+!START start job # node2:50053 1746412642.3536863
+!START command request node3:50052 search 1746412642.3537378
+took to start node2:50053 0.010435104370117188
+!END start job # node2:50053 1746412642.372042
+!START run job # node2:50053 1746412642.372066
+ts 1746412642.3720934
+!START command request node2:50053 search 1746412642.372107
+!END submitting job # node2:50053 1746412642.3721466
+!START submitting job # node1:50053 1746412642.3899224
+!START start job # node1:50053 1746412642.391024
+took to start node1:50053 0.00039887428283691406
+!END submitting job # node1:50053 1746412642.3915086
+!END start job # node1:50053 1746412642.391546
+!START submitting job # node3:50053 1746412642.3915892
+!START run job # node1:50053 1746412642.3916318
+!START start job # node3:50053 1746412642.391682
+ts 1746412642.3917482
+!START command request node1:50053 search 1746412642.392013
+took to start node3:50053 0.0074236392974853516
+!END start job # node3:50053 1746412642.409458
+!START run job # node3:50053 1746412642.4106703
+!END submitting job # node3:50053 1746412642.4095159
+ts 1746412642.4107287
+!START submitting job # node1:50054 1746412642.4107912
+!START command request node3:50053 search 1746412642.4108431
+!START start job # node1:50054 1746412642.4108984
+took to start node1:50054 0.0014734268188476562
+!END start job # node1:50054 1746412642.4297867
+!START run job # node1:50054 1746412642.4297957
+ts 1746412642.429827
+!START command request node1:50054 search 1746412642.4298422
+!END submitting job # node1:50054 1746412642.4385552
+!START submitting job # node2:50054 1746412642.4386072
+!START start job # node2:50054 1746412642.4443204
+took to start node2:50054 0.0004124641418457031
+!END submitting job # node2:50054 1746412642.4458797
+!END start job # node2:50054 1746412642.4459174
+!START submitting job # node3:50054 1746412642.4459603
+!START run job # node2:50054 1746412642.4459937
+!START start job # node3:50054 1746412642.4460266
+ts 1746412642.4460902
+!START command request node2:50054 search 1746412642.446325
+took to start node3:50054 0.0002834796905517578
+!END start job # node3:50054 1746412642.4585004
+!START run job # node3:50054 1746412642.4684658
+ts 1746412642.4685264
+!START command request node3:50054 search 1746412642.4685712
+!END submitting job # node3:50054 1746412642.4697645
+!START collecting results 1746412642.4849272
+latency 0.0028061866760253906
+!END command response node3:50053 search 1746412643.3040774
+!END run job # node3:50053 1746412643.304297
+latency 0.003859996795654297
+!END command response node2:50053 search 1746412643.3067317
+!END run job # node2:50053 1746412643.306883
+latency 0.0029213428497314453
+!END command response node1:50053 search 1746412643.3214684
+!END run job # node1:50053 1746412643.3216207
+latency 0.003246307373046875
+!END command response node1:50052 search 1746412643.3513477
+!END run job # node1:50052 1746412643.351497
+latency 0.0029854774475097656
+!END command response node3:50052 search 1746412643.384516
+!END run job # node3:50052 1746412643.3846772
+latency 0.0028395652770996094
+!END command response node2:50052 search 1746412643.3930454
+!END run job # node2:50052 1746412643.3931944
+latency 0.002671480178833008
+!END command response node1:50054 search 1746412643.4384005
+!END run job # node1:50054 1746412643.4385486
+latency 0.0008063316345214844
+!END command response node3:50054 search 1746412643.4631052
+!END run job # node3:50054 1746412643.4632783
+latency 0.0007343292236328125
+!END command response node2:50054 search 1746412643.500186
+!END run job # node2:50054 1746412643.5003378
+!END collecting results 1746412643.5004597
+ts 1746412643.5013456
+!START command request node1:50052 __getattribute__ ('ids',) {} 1746412643.5014553
+latency 0.004857540130615234
+!END command response node1:50052 __getattribute__ ('ids',) {} 1746412643.5091546
+ts 1746412643.515197
+!START command request node2:50052 __getattribute__ ('ids',) {} 1746412643.5152564
+latency 0.003957033157348633
+!END command response node2:50052 __getattribute__ ('ids',) {} 1746412643.5216978
+ts 1746412643.5226865
+!START command request node3:50052 __getattribute__ ('ids',) {} 1746412643.5227427
+latency 0.005068540573120117
+!END command response node3:50052 __getattribute__ ('ids',) {} 1746412643.5304015
+ts 1746412643.5322502
+!START command request node2:50053 __getattribute__ ('ids',) {} 1746412643.5323057
+latency 0.004313230514526367
+!END command response node2:50053 __getattribute__ ('ids',) {} 1746412643.5390375
+ts 1746412643.5399516
+!START command request node1:50053 __getattribute__ ('ids',) {} 1746412643.540005
+latency 0.0045359134674072266
+!END command response node1:50053 __getattribute__ ('ids',) {} 1746412643.5474646
+ts 1746412643.5483892
+!START command request node3:50053 __getattribute__ ('ids',) {} 1746412643.5484428
+latency 0.004478931427001953
+!END command response node3:50053 __getattribute__ ('ids',) {} 1746412643.5553877
+ts 1746412643.5562997
+!START command request node1:50054 __getattribute__ ('ids',) {} 1746412643.556359
+latency 0.004192352294921875
+!END command response node1:50054 __getattribute__ ('ids',) {} 1746412643.5627315
+ts 1746412643.5636437
+!START command request node2:50054 __getattribute__ ('ids',) {} 1746412643.5636973
+latency 0.004302263259887695
+!END command response node2:50054 __getattribute__ ('ids',) {} 1746412643.5704653
+ts 1746412643.572267
+!START command request node3:50054 __getattribute__ ('ids',) {} 1746412643.57232
+latency 0.004448890686035156
+!END command response node3:50054 __getattribute__ ('ids',) {} 1746412643.5790658
+!START collecting distances 1746412643.5799704
+ts 1746412643.5800202
+!START command request node1:50052 __getattribute__ ('distances',) {} 1746412643.5800586
+latency 0.0014717578887939453
+!END command response node1:50052 __getattribute__ ('distances',) {} 1746412643.5840676
+ts 1746412643.5847857
+!START command request node2:50052 __getattribute__ ('distances',) {} 1746412643.584839
+latency 0.0018208026885986328
+!END command response node2:50052 __getattribute__ ('distances',) {} 1746412643.5884483
+ts 1746412643.5891728
+!START command request node3:50052 __getattribute__ ('distances',) {} 1746412643.5892313
+latency 0.0017833709716796875
+!END command response node3:50052 __getattribute__ ('distances',) {} 1746412643.5927918
+ts 1746412643.5940173
+!START command request node2:50053 __getattribute__ ('distances',) {} 1746412643.5940726
+latency 0.0015685558319091797
+!END command response node2:50053 __getattribute__ ('distances',) {} 1746412643.5972712
+ts 1746412643.598008
+!START command request node1:50053 __getattribute__ ('distances',) {} 1746412643.5980673
+latency 0.0017361640930175781
+!END command response node1:50053 __getattribute__ ('distances',) {} 1746412643.6016655
+ts 1746412643.602379
+!START command request node3:50053 __getattribute__ ('distances',) {} 1746412643.6024365
+latency 0.0017328262329101562
+!END command response node3:50053 __getattribute__ ('distances',) {} 1746412643.6058757
+ts 1746412643.607516
+!START command request node1:50054 __getattribute__ ('distances',) {} 1746412643.6075714
+latency 0.0017168521881103516
+!END command response node1:50054 __getattribute__ ('distances',) {} 1746412643.6110454
+ts 1746412643.6126728
+!START command request node2:50054 __getattribute__ ('distances',) {} 1746412643.6127276
+latency 0.001692056655883789
+!END command response node2:50054 __getattribute__ ('distances',) {} 1746412643.6161265
+ts 1746412643.6173084
+!START command request node3:50054 __getattribute__ ('distances',) {} 1746412643.6173627
+latency 0.0022885799407958984
+!END command response node3:50054 __getattribute__ ('distances',) {} 1746412643.6213014
+!END collecting distances 1746412643.6220224
+!START processing results # 0 1746412643.6220562
+!END processing results # 0 1746412643.6376607
+!START finalize results 1746412643.6377578
+!END finalize results 1746412643.6380084
+!END search 1746412643.6409895
 
-!START command response node1:50052 build 1746408517.6235516
-latency 0.03395557403564453 1746408535.9913318 1746408536.025294
-!END command request node1:50052 search 1746408536.0253644
-!START command response node1:50052 search 1746408537.0448713
-latency 0.0013186931610107422 1746408537.1781993 1746408537.1795223
-!END command request node1:50052 __getattribute__ ('ids',) {} 1746408537.1795738
-!START command response node1:50052 __getattribute__ ('ids',) {} 1746408537.180898
-latency 0.0010025501251220703 1746408537.2572339 1746408537.25824
-!END command request node1:50052 __getattribute__ ('distances',) {} 1746408537.2582848
-!START command response node1:50052 __getattribute__ ('distances',) {} 1746408537.2590005
+
+!START command response node1:50052 build 1746412626.3650675
+latency 0.04152083396911621 1746412642.3208055 1746412642.3623328
+!END command request node1:50052 search 1746412642.3624067
+!START command response node1:50052 search 1746412643.3479655
+latency 0.001462697982788086 1746412643.5013456 1746412643.5028126
+!END command request node1:50052 __getattribute__ ('ids',) {} 1746412643.502867
+!START command response node1:50052 __getattribute__ ('ids',) {} 1746412643.5042188
+latency 0.0017406940460205078 1746412643.5800202 1746412643.5817647
+!END command request node1:50052 __getattribute__ ('distances',) {} 1746412643.58181
+!START command response node1:50052 __getattribute__ ('distances',) {} 1746412643.5825236

@@ -2,6 +2,7 @@ import atexit
 import importlib
 import pickle
 import socket
+import sys
 import time
 from collections.abc import Callable
 from concurrent import futures
@@ -288,6 +289,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         # print("Cleanup request:", request)
         self.objects.clear()
         self.id = 0
+        sys.stdout.flush()
         return CleanupResponse()
 
     def start(self):
