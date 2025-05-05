@@ -356,7 +356,9 @@ class DistributedIndex:
                     )
                     print("!END submitting job #", server, time.time())
                     futures.append(future)
+                print("!START collecting results", time.time())
                 results = [future.result() for future in futures]
+                print("!END collecting results", time.time())
                 self.results_list.append(results)
 
         # Merge results
@@ -430,9 +432,9 @@ class DistributedIndex:
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             ids = [result.ids for result in results_list[i]]
-            print("!START collecting results", time.time())
+            print("!START collecting distances", time.time())
             distances = [result.distances for result in results_list[i]]
-            print("!END collecting results", time.time())
+            print("!END collecting distances", time.time())
 
             print("!START processing results #", i, time.time())
             # Concatenate along the k dimension (dim=1)
