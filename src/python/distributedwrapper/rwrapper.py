@@ -116,7 +116,7 @@ class Local:
                 known_name = args[0] if known_callable else None
                 item = object.__getattribute__(self, *args) if not known_callable else None
                 if known_callable or isinstance(item, Callable):
-                    # print(f"call [{known_name or item.__name__}]:, args={args}, kwargs={kwargs}")
+                    print(f"call [{known_name or item.__name__}]:, args={args}, kwargs={kwargs}")
                     rname = f"{self._address} {known_name or item.__name__}"
                     print("!START command request", rname, time.time())
                     return lambda *arguments, **keywords: self._decode_response(
