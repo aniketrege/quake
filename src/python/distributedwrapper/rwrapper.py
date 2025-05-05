@@ -230,11 +230,11 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
     def SendInstance(self, request: InstanceRequest, context):
         # print("SendInstance", request)
         print("latency", time.time() - request.ts)
-        print("!END instance request", request.method, time.time())
+        print("!END instance request", request.name, time.time())
         self.id += 1
         args, kwargs = self._adjust_for_nonlocal(request)
         self.objects[self.id] = globals()[request.name](*args, **kwargs)
-        print("!END instance response", request.method, time.time())
+        print("!END instance response", request.name, time.time())
         return InstanceResponse(uuid=self.id, ts=time.time())
 
     def _adjust_for_nonlocal(self, request):
