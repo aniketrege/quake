@@ -244,7 +244,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         args, kwargs = self._adjust_for_nonlocal(request)
         self.objects[self.id] = globals()[request.name](*args, **kwargs)
         print("!START instance response", request.rname, time.time())
-        return InstanceResponse(uuid=self.id, ts=time.time())
+        return InstanceResponse(uuid=self.id, ts=time.time(), rname=request.rname)
 
     def _adjust_for_nonlocal(self, request):
         args, kwargs, lookups = pickle.loads(request.payload)
@@ -269,13 +269,13 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
             pickled = pickle.dumps(result)
             # print("...returning a direct result")
             print("!START command response", request.name, time.time())
-            return CommandResponse(result=pickled, direct=True, ts=time.time())
+            return CommandResponse(result=pickled, direct=True, ts=time.time(), name=request.name)
         except Exception:
             # print("...returning an indirect result")
             self.id += 1
             self.objects[self.id] = result
             print("!START command response", request.name, time.time())
-            return CommandResponse(result=pickle.dumps(self.id), direct=False, ts=time.time())
+            return CommandResponse(result=pickle.dumps(self.id), direct=False, ts=time.time(), name=request.name)
 
     def SendImport(self, request: ImportRequest, context):
         # print("Import request:", request)
