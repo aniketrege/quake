@@ -13,44 +13,52 @@ class CleanupResponse(_message.Message):
     def __init__(self) -> None: ...
 
 class InstanceRequest(_message.Message):
-    __slots__ = ("name", "payload", "ts")
+    __slots__ = ("name", "payload", "ts", "rname")
     NAME_FIELD_NUMBER: _ClassVar[int]
     PAYLOAD_FIELD_NUMBER: _ClassVar[int]
     TS_FIELD_NUMBER: _ClassVar[int]
+    RNAME_FIELD_NUMBER: _ClassVar[int]
     name: str
     payload: bytes
     ts: float
-    def __init__(self, name: _Optional[str] = ..., payload: _Optional[bytes] = ..., ts: _Optional[float] = ...) -> None: ...
+    rname: str
+    def __init__(self, name: _Optional[str] = ..., payload: _Optional[bytes] = ..., ts: _Optional[float] = ..., rname: _Optional[str] = ...) -> None: ...
 
 class InstanceResponse(_message.Message):
-    __slots__ = ("uuid", "ts")
+    __slots__ = ("uuid", "ts", "rname")
     UUID_FIELD_NUMBER: _ClassVar[int]
     TS_FIELD_NUMBER: _ClassVar[int]
+    RNAME_FIELD_NUMBER: _ClassVar[int]
     uuid: int
     ts: float
-    def __init__(self, uuid: _Optional[int] = ..., ts: _Optional[float] = ...) -> None: ...
+    rname: str
+    def __init__(self, uuid: _Optional[int] = ..., ts: _Optional[float] = ..., rname: _Optional[str] = ...) -> None: ...
 
 class CommandRequest(_message.Message):
-    __slots__ = ("uuid", "method", "payload", "ts")
+    __slots__ = ("uuid", "method", "payload", "ts", "name")
     UUID_FIELD_NUMBER: _ClassVar[int]
     METHOD_FIELD_NUMBER: _ClassVar[int]
     PAYLOAD_FIELD_NUMBER: _ClassVar[int]
     TS_FIELD_NUMBER: _ClassVar[int]
+    NAME_FIELD_NUMBER: _ClassVar[int]
     uuid: int
     method: str
     payload: bytes
     ts: float
-    def __init__(self, uuid: _Optional[int] = ..., method: _Optional[str] = ..., payload: _Optional[bytes] = ..., ts: _Optional[float] = ...) -> None: ...
+    name: str
+    def __init__(self, uuid: _Optional[int] = ..., method: _Optional[str] = ..., payload: _Optional[bytes] = ..., ts: _Optional[float] = ..., name: _Optional[str] = ...) -> None: ...
 
 class CommandResponse(_message.Message):
-    __slots__ = ("result", "direct", "ts")
+    __slots__ = ("result", "direct", "ts", "name")
     RESULT_FIELD_NUMBER: _ClassVar[int]
     DIRECT_FIELD_NUMBER: _ClassVar[int]
     TS_FIELD_NUMBER: _ClassVar[int]
+    NAME_FIELD_NUMBER: _ClassVar[int]
     result: bytes
     direct: bool
     ts: float
-    def __init__(self, result: _Optional[bytes] = ..., direct: bool = ..., ts: _Optional[float] = ...) -> None: ...
+    name: str
+    def __init__(self, result: _Optional[bytes] = ..., direct: bool = ..., ts: _Optional[float] = ..., name: _Optional[str] = ...) -> None: ...
 
 class ImportRequest(_message.Message):
     __slots__ = ("package", "as_name", "item", "ts")

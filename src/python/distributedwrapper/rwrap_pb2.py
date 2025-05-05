@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0brwrap.proto\"\x10\n\x0e\x43leanupRequest\"\x11\n\x0f\x43leanupResponse\"<\n\x0fInstanceRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07payload\x18\x02 \x02(\x0c\x12\n\n\x02ts\x18\x03 \x02(\x01\",\n\x10InstanceResponse\x12\x0c\n\x04uuid\x18\x01 \x02(\r\x12\n\n\x02ts\x18\x02 \x02(\x01\"K\n\x0e\x43ommandRequest\x12\x0c\n\x04uuid\x18\x01 \x02(\x05\x12\x0e\n\x06method\x18\x02 \x02(\t\x12\x0f\n\x07payload\x18\x03 \x02(\x0c\x12\n\n\x02ts\x18\x04 \x02(\x01\"=\n\x0f\x43ommandResponse\x12\x0e\n\x06result\x18\x01 \x02(\x0c\x12\x0e\n\x06\x64irect\x18\x02 \x02(\x08\x12\n\n\x02ts\x18\x03 \x02(\x01\"K\n\rImportRequest\x12\x0f\n\x07package\x18\x01 \x02(\t\x12\x0f\n\x07\x61s_name\x18\x02 \x01(\t\x12\x0c\n\x04item\x18\x03 \x01(\t\x12\n\n\x02ts\x18\x04 \x02(\x01\"\x10\n\x0eImportResponse2\xd6\x01\n\x04Wrap\x12\x35\n\x0cSendInstance\x12\x10.InstanceRequest\x1a\x11.InstanceResponse\"\x00\x12\x32\n\x0bSendCommand\x12\x0f.CommandRequest\x1a\x10.CommandResponse\"\x00\x12/\n\nSendImport\x12\x0e.ImportRequest\x1a\x0f.ImportResponse\"\x00\x12\x32\n\x0bSendCleanup\x12\x0f.CleanupRequest\x1a\x10.CleanupResponse\"\x00')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0brwrap.proto\"\x10\n\x0e\x43leanupRequest\"\x11\n\x0f\x43leanupResponse\"K\n\x0fInstanceRequest\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07payload\x18\x02 \x02(\x0c\x12\n\n\x02ts\x18\x03 \x02(\x01\x12\r\n\x05rname\x18\x04 \x02(\t\";\n\x10InstanceResponse\x12\x0c\n\x04uuid\x18\x01 \x02(\r\x12\n\n\x02ts\x18\x02 \x02(\x01\x12\r\n\x05rname\x18\x03 \x02(\t\"Y\n\x0e\x43ommandRequest\x12\x0c\n\x04uuid\x18\x01 \x02(\x05\x12\x0e\n\x06method\x18\x02 \x02(\t\x12\x0f\n\x07payload\x18\x03 \x02(\x0c\x12\n\n\x02ts\x18\x04 \x02(\x01\x12\x0c\n\x04name\x18\x05 \x02(\t\"K\n\x0f\x43ommandResponse\x12\x0e\n\x06result\x18\x01 \x02(\x0c\x12\x0e\n\x06\x64irect\x18\x02 \x02(\x08\x12\n\n\x02ts\x18\x03 \x02(\x01\x12\x0c\n\x04name\x18\x04 \x02(\t\"K\n\rImportRequest\x12\x0f\n\x07package\x18\x01 \x02(\t\x12\x0f\n\x07\x61s_name\x18\x02 \x01(\t\x12\x0c\n\x04item\x18\x03 \x01(\t\x12\n\n\x02ts\x18\x04 \x02(\x01\"\x10\n\x0eImportResponse2\xd6\x01\n\x04Wrap\x12\x35\n\x0cSendInstance\x12\x10.InstanceRequest\x1a\x11.InstanceResponse\"\x00\x12\x32\n\x0bSendCommand\x12\x0f.CommandRequest\x1a\x10.CommandResponse\"\x00\x12/\n\nSendImport\x12\x0e.ImportRequest\x1a\x0f.ImportResponse\"\x00\x12\x32\n\x0bSendCleanup\x12\x0f.CleanupRequest\x1a\x10.CleanupResponse\"\x00')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,17 +36,17 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CLEANUPRESPONSE']._serialized_start=33
   _globals['_CLEANUPRESPONSE']._serialized_end=50
   _globals['_INSTANCEREQUEST']._serialized_start=52
-  _globals['_INSTANCEREQUEST']._serialized_end=112
-  _globals['_INSTANCERESPONSE']._serialized_start=114
-  _globals['_INSTANCERESPONSE']._serialized_end=158
-  _globals['_COMMANDREQUEST']._serialized_start=160
-  _globals['_COMMANDREQUEST']._serialized_end=235
-  _globals['_COMMANDRESPONSE']._serialized_start=237
-  _globals['_COMMANDRESPONSE']._serialized_end=298
-  _globals['_IMPORTREQUEST']._serialized_start=300
-  _globals['_IMPORTREQUEST']._serialized_end=375
-  _globals['_IMPORTRESPONSE']._serialized_start=377
-  _globals['_IMPORTRESPONSE']._serialized_end=393
-  _globals['_WRAP']._serialized_start=396
-  _globals['_WRAP']._serialized_end=610
+  _globals['_INSTANCEREQUEST']._serialized_end=127
+  _globals['_INSTANCERESPONSE']._serialized_start=129
+  _globals['_INSTANCERESPONSE']._serialized_end=188
+  _globals['_COMMANDREQUEST']._serialized_start=190
+  _globals['_COMMANDREQUEST']._serialized_end=279
+  _globals['_COMMANDRESPONSE']._serialized_start=281
+  _globals['_COMMANDRESPONSE']._serialized_end=356
+  _globals['_IMPORTREQUEST']._serialized_start=358
+  _globals['_IMPORTREQUEST']._serialized_end=433
+  _globals['_IMPORTRESPONSE']._serialized_start=435
+  _globals['_IMPORTRESPONSE']._serialized_end=451
+  _globals['_WRAP']._serialized_start=454
+  _globals['_WRAP']._serialized_end=668
 # @@protoc_insertion_point(module_scope)
