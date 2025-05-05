@@ -16,8 +16,14 @@ class DistributedIndex:
     across servers for parallel processing.
     """
 
-    def __init__(self, server_addresses: List[str], num_partitions: int, build_params_kw_args: Dict[str, Any],
-                 search_params_kw_args: Dict[str, Any], use_kmeans: bool = False):
+    def __init__(
+        self,
+        server_addresses: List[str],
+        num_partitions: int,
+        build_params_kw_args: Dict[str, Any],
+        search_params_kw_args: Dict[str, Any],
+        use_kmeans: bool = False,
+    ):
         """
         Initialize the DistributedIndex with a list of server addresses.
 
@@ -51,8 +57,9 @@ class DistributedIndex:
         self.k = self.search_params_kw_args["k"]
 
         # TODO if there are leftover servers, replicate most commonly accessed partitions
-        assert len(
-            self.server_addresses) % num_partitions == 0, "Number of servers must be divisible by number of partitions"
+        assert (
+            len(self.server_addresses) % num_partitions == 0
+        ), "Number of servers must be divisible by number of partitions"
 
         self.num_partitions = num_partitions
 
@@ -170,8 +177,9 @@ class DistributedIndex:
 
         partitioned_vectors, partitioned_ids = self._prepartition_vectors(vectors, ids)
 
-        assert len(
-            partitioned_vectors) == self.num_partitions, "Number of partitioned vectors must match number of partitions"
+        assert (
+            len(partitioned_vectors) == self.num_partitions
+        ), "Number of partitioned vectors must match number of partitions"
 
         # with ThreadPoolExecutor(max_workers=len(self.server_addresses)) as executor:
         #     executor.map(f, range(len(self.server_addresses)))
@@ -341,10 +349,12 @@ class DistributedIndex:
                 # Submit to all servers handling this partition
                 servers_to_submit = [value[i] for value in self.partition_to_server_map.values()]
                 for server in servers_to_submit:
-                    print("!START submitting job #", i, time.time())
-                    print("!START start job #", i, time.time())
-                    future = executor.submit(self._search_single_server_dist, server, queries_for_partition_i, time.time())
-                    print("!END submitting job #", i, time.time())
+                    print("!START submitting job #", server, time.time())
+                    print("!START start job #", server, time.time())
+                    future = executor.submit(
+                        self._search_single_server_dist, server, queries_for_partition_i, time.time()
+                    )
+                    print("!END submitting job #", server, time.time())
                     futures.append(future)
                 results = [future.result() for future in futures]
                 self.results_list.append(results)
@@ -434,7 +444,7 @@ class DistributedIndex:
             sorted_ids = torch.gather(ids, 1, sorted_indices)
 
             # Take top k results
-            top_k_ids = sorted_ids[:, :self.k]
+            top_k_ids = sorted_ids[:, : self.k]
             full_ids.append(top_k_ids)
             print("!END processing results #", i, time.time())
 
