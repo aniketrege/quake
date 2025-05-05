@@ -7,7 +7,7 @@ import re
 from datetime import datetime
 
 # Paste your log data as a single string
-log_data = open("times.txt", "r").read()
+log_data = open("repl9.txt", "r").read()
 log_data = re.sub(r"quake\d-\d  \| ", "", log_data)
 log_data = re.sub(r"^(?!\!).*\n", "", log_data)
 
@@ -23,7 +23,9 @@ class Event:
 events_objs = defaultdict(lambda: Event())
 
 for line in lines:
-    # if "job" in line:
+    # if "command" in line:
+    #     continue
+    # if "command" in line:
     #     continue
     match = re.match(r"!(START|END)\s+(.*)\s+(\d+\.\d+)", line)
     if not match:
@@ -39,6 +41,8 @@ events = []
 for label, event in events_objs.items():
     if not event.start or not event.end:
         continue
+    elif event.start < events_objs["search"].start:
+        continue
     else:
         duration_ms = (event.end - event.start).total_seconds() * 1000
         events.append((label, event.start, event.end, duration_ms))
@@ -53,6 +57,7 @@ fig.update_layout(title="Task Timeline")
 
 # Show the figure
 fig.show()
+fig.write_html(f"{input('name: ')}.html")
 
 for event in events:
     print(event)

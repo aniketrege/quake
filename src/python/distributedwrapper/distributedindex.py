@@ -235,7 +235,7 @@ class DistributedIndex:
         print("!END run job #", server_idx, time.time())
         self.stats["num_queries"] += 1
         self.stats["time_queries"] += end - start
-        return r
+        return r.ids
 
     def _search_single_server_dist(self, server_address: str, queries: torch.Tensor, ts) -> torch.Tensor:
         """Helper method to perform search on a single server."""
@@ -411,7 +411,7 @@ class DistributedIndex:
         """
         #
         print("!START collecting ids", time.time())
-        ids = [result.ids for result in results]
+        ids = [result for result in results]
         print("!END collecting ids", time.time())
         print("!START processing results", time.time())
         ids = torch.cat(ids, dim=0)
