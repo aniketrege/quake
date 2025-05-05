@@ -85,8 +85,9 @@ class Local:
     def register_function(self, name):
         self._functions.add(name)
 
-    def _decode_response(self, response: CommandResponse):
+    def _decode_response(self, response: CommandResponse, action):
         print("latency", time.time() - response.ts)
+        print("!END command response", action, time.time())
         if response.direct:
             return pickle.loads(response.result)
 
@@ -100,7 +101,6 @@ class Local:
         new_local.uuid = uuid
         Local._uuid_lookup[addr][uuid] = new_local
         return new_local
-
 
     def _interceptor(self, action, *args, **kwargs):
         if not self.uuid:
@@ -116,6 +116,7 @@ class Local:
                 item = object.__getattribute__(self, *args) if not known_callable else None
                 if known_callable or isinstance(item, Callable):
                     # print(f"call [{known_name or item.__name__}]:, args={args}, kwargs={kwargs}")
+                    print("!START command request", action, time.time())
                     return lambda *arguments, **keywords: self._decode_response(
                         self._stub.SendCommand(
                             CommandRequest(
@@ -124,12 +125,14 @@ class Local:
                                 method=known_name or item.__name__,
                                 payload=pickle.dumps(self._adjust_for_nonlocal(arguments, keywords)),
                             ),
-                        )
+                        ),
+                        known_name or item.__name__,
                     )
             except AttributeError:
                 pass
 
         # print(f"prop [{action}]:, args={args}, kwargs={kwargs}")
+        print("!START command request", action, time.time())
         return self._decode_response(
             self._stub.SendCommand(
                 CommandRequest(
@@ -138,7 +141,8 @@ class Local:
                     method=action,
                     payload=pickle.dumps(self._adjust_for_nonlocal(args, kwargs)),
                 ),
-            )
+            ),
+            action,
         )
 
     def instantiate(self, *arguments, **keywords):
@@ -226,9 +230,11 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
     def SendInstance(self, request: InstanceRequest, context):
         # print("SendInstance", request)
         print("latency", time.time() - request.ts)
+        print("!END instance request", request.method, time.time())
         self.id += 1
         args, kwargs = self._adjust_for_nonlocal(request)
         self.objects[self.id] = globals()[request.name](*args, **kwargs)
+        print("!END instance response", request.method, time.time())
         return InstanceResponse(uuid=self.id, ts=time.time())
 
     def _adjust_for_nonlocal(self, request):
@@ -245,6 +251,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         # print("Payload:", pickle.loads(request.payload))
         # print("Got command...")
         print("latency", time.time() - request.ts, request.ts, time.time())
+        print("!END command request", request.method, time.time())
         obj = self.objects[request.uuid]
         args, kwargs = self._adjust_for_nonlocal(request)
         f = getattr(obj, request.method)
@@ -252,11 +259,13 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         try:
             pickled = pickle.dumps(result)
             # print("...returning a direct result")
+            print("!START command response", request.method, time.time())
             return CommandResponse(result=pickled, direct=True, ts=time.time())
         except Exception:
             # print("...returning an indirect result")
             self.id += 1
             self.objects[self.id] = result
+            print("!START command response", request.method, time.time())
             return CommandResponse(result=pickle.dumps(self.id), direct=False, ts=time.time())
 
     def SendImport(self, request: ImportRequest, context):

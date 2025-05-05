@@ -218,10 +218,13 @@ class DistributedIndex:
 
     def _search_single_server(self, server_idx: int, queries: torch.Tensor, ts) -> torch.Tensor:
         print("took to start", server_idx, time.time() - ts)
+        print("!END start job #", server_idx, time.time())
+        print("!START run job #", server_idx, time.time())
         """Helper method to perform search on a single server."""
         start = time.perf_counter()
         r = self.indices[server_idx].search(queries, self.search_params[server_idx])
         end = time.perf_counter()
+        print("!END run job #", server_idx, time.time())
         self.stats["num_queries"] += 1
         self.stats["time_queries"] += end - start
         return r
@@ -229,10 +232,13 @@ class DistributedIndex:
     def _search_single_server_dist(self, server_address: str, queries: torch.Tensor, ts) -> torch.Tensor:
         """Helper method to perform search on a single server."""
         print("took to start", server_address, time.time() - ts)
+        print("!END start job #", server_address, time.time())
+        print("!START run job #", server_address, time.time())
         start = time.perf_counter()
         index, _, search_params = self.get_index_and_params(server_address)
         r = index.search(queries, search_params)
         end = time.perf_counter()
+        print("!END run job #", server_address, time.time())
         self.stats["num_queries"] += 1
         self.stats["time_queries"] += end - start
         return r
@@ -247,6 +253,7 @@ class DistributedIndex:
         Returns:
             Search results from all servers merged and sorted
         """
+        print("!START search", time.time())
 
         # Distribute queries across servers
         n_servers = len(self.server_addresses)
@@ -260,9 +267,9 @@ class DistributedIndex:
         start_idx = 0
         futures = []
 
-        print("creating pool", time.time())
+        print("!START thread pool create", time.time())
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
-            print("entered pool", time.time())
+            print("!END thread pool create", time.time())
             for i in range(n_servers):
                 # Calculate number of queries for this server
                 n_queries_for_server = queries_per_server + (1 if i < remainder else 0)
@@ -274,7 +281,10 @@ class DistributedIndex:
                 server_queries = queries[start_idx:end_idx]
 
                 # Submit search task to thread pool
+                print("!START submitting job #", i, time.time())
+                print("!START start job #", server_idx, time.time())
                 future = executor.submit(self._search_single_server, i, server_queries, time.time())
+                print("!END submitting job #", i, time.time())
                 futures.append(future)
                 start_idx = end_idx
 
@@ -287,6 +297,7 @@ class DistributedIndex:
         end = time.perf_counter()
         self.stats["num_merges"] += 1
         self.stats["time_merges"] += end - start
+        print("!END search", time.time())
         return r
 
     def search_dist(self, queries: torch.Tensor) -> torch.Tensor:
@@ -299,6 +310,7 @@ class DistributedIndex:
         Returns:
             Search results from all servers merged and sorted
         """
+        print("!START search", time.time())
         # Distribute queries across servers
         n_servers = len(self.server_addresses)
         num_replicas = n_servers // self.num_partitions
@@ -306,9 +318,9 @@ class DistributedIndex:
         # Split queries among servers
         self.results_list = []  # Reset results list
 
-        print("creating pool", time.time())
+        print("!START thread pool create", time.time())
         with ThreadPoolExecutor(max_workers=n_servers) as executor:
-            print("entered pool", time.time())
+            print("!END thread pool create", time.time())
             # Calculate base batch size and remainder
             num_queries = len(queries)
             base_batch_size = num_queries // num_replicas
@@ -329,7 +341,10 @@ class DistributedIndex:
                 # Submit to all servers handling this partition
                 servers_to_submit = [value[i] for value in self.partition_to_server_map.values()]
                 for server in servers_to_submit:
+                    print("!START submitting job #", i, time.time())
+                    print("!START start job #", i, time.time())
                     future = executor.submit(self._search_single_server_dist, server, queries_for_partition_i, time.time())
+                    print("!END submitting job #", i, time.time())
                     futures.append(future)
                 results = [future.result() for future in futures]
                 self.results_list.append(results)
@@ -340,6 +355,7 @@ class DistributedIndex:
         end = time.perf_counter()
         self.stats["num_merges"] += 1
         self.stats["time_merges"] += end - start
+        print("!END search", time.time())
         return r
 
     def search_sync(self, queries: torch.Tensor) -> torch.Tensor:
@@ -381,8 +397,12 @@ class DistributedIndex:
             Concatenated search results
         """
         #
+        print("!START collecting results", time.time())
         ids = [result.ids for result in results]
+        print("!END collecting results", time.time())
+        print("!START processing results", time.time())
         ids = torch.cat(ids, dim=0)
+        print("!END processing results", time.time())
         return ids
 
     def _merge_search_results_dist(self, results_list: List[List]) -> torch.Tensor:
@@ -400,8 +420,11 @@ class DistributedIndex:
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             ids = [result.ids for result in results_list[i]]
+            print("!START collecting results", time.time())
             distances = [result.distances for result in results_list[i]]
+            print("!END collecting results", time.time())
 
+            print("!START processing results #", i, time.time())
             # Concatenate along the k dimension (dim=1)
             ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
             distances = torch.cat(distances, dim=1)  # shape: (num_queries, total_k)
@@ -413,9 +436,12 @@ class DistributedIndex:
             # Take top k results
             top_k_ids = sorted_ids[:, :self.k]
             full_ids.append(top_k_ids)
+            print("!END processing results #", i, time.time())
 
         # Concatenate results from all partitions
+        print("!START finalize results", time.time())
         final_ids = torch.cat(full_ids, dim=0)
+        print("!END finalize results", time.time())
         return final_ids
 
     def calculate_gini_index(self) -> float:
