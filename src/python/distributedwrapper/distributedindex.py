@@ -244,7 +244,8 @@ class DistributedIndex:
         print("!START run job #", server_address, time.time())
         start = time.perf_counter()
         index, _, search_params = self.get_index_and_params(server_address)
-        r = index.search(queries, search_params)
+        rr = index.search(queries, search_params)
+        r = (rr.ids, rr.distances)
         end = time.perf_counter()
         print("!END run job #", server_address, time.time())
         self.stats["num_queries"] += 1
@@ -290,7 +291,7 @@ class DistributedIndex:
 
                 # Submit search task to thread pool
                 print("!START submitting job #", i, time.time())
-                print("!START start job #", server_idx, time.time())
+                print("!START start job #", i, time.time())
                 future = executor.submit(self._search_single_server, i, server_queries, time.time())
                 print("!END submitting job #", i, time.time())
                 futures.append(future)
@@ -409,9 +410,9 @@ class DistributedIndex:
             Concatenated search results
         """
         #
-        print("!START collecting results", time.time())
+        print("!START collecting ids", time.time())
         ids = [result.ids for result in results]
-        print("!END collecting results", time.time())
+        print("!END collecting ids", time.time())
         print("!START processing results", time.time())
         ids = torch.cat(ids, dim=0)
         print("!END processing results", time.time())
@@ -431,9 +432,11 @@ class DistributedIndex:
         full_ids = []
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
-            ids = [result.ids for result in results_list[i]]
+            print("!START ids distances", time.time())
+            ids = [result[1] for result in results_list[i]]
+            print("!END ids distances", time.time())
             print("!START collecting distances", time.time())
-            distances = [result.distances for result in results_list[i]]
+            distances = [result[2] for result in results_list[i]]
             print("!END collecting distances", time.time())
 
             print("!START processing results #", i, time.time())

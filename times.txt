@@ -1,198 +1,495 @@
 == Distributed Test ===
 Using 9 servers: node1:50052, node2:50052, node3:50052, node1:50053, node2:50053, node3:50053, node1:50054, node2:50054, node3:50054
 Searching 10000 queries with k=10, nprobe=11...
-!START search 1746412642.3200467
-!START thread pool create 1746412642.3200593
-!END thread pool create 1746412642.3201098
-!START submitting job # node1:50052 1746412642.3202863
-!START start job # node1:50052 1746412642.3202999
-took to start node1:50052 0.0002732276916503906
-!END submitting job # node1:50052 1746412642.3206217
-!END start job # node1:50052 1746412642.3206542
-!START submitting job # node2:50052 1746412642.3206844
-!START run job # node1:50052 1746412642.3207152
-!START start job # node2:50052 1746412642.3207386
-ts 1746412642.3208055
-!START command request node1:50052 search 1746412642.3209455
-took to start node2:50052 0.009554624557495117
-!END submitting job # node2:50052 1746412642.3362634
-!END start job # node2:50052 1746412642.336319
-!START submitting job # node3:50052 1746412642.3375025
-!START run job # node2:50052 1746412642.3375616
-!START start job # node3:50052 1746412642.337609
-ts 1746412642.3376799
-!START command request node2:50052 search 1746412642.3378367
-took to start node3:50052 0.008786916732788086
-!END start job # node3:50052 1746412642.3523982
-!END submitting job # node3:50052 1746412642.346536
-!START submitting job # node2:50053 1746412642.353519
-!START run job # node3:50052 1746412642.3524358
-ts 1746412642.3536503
-!START start job # node2:50053 1746412642.3536863
-!START command request node3:50052 search 1746412642.3537378
-took to start node2:50053 0.010435104370117188
-!END start job # node2:50053 1746412642.372042
-!START run job # node2:50053 1746412642.372066
-ts 1746412642.3720934
-!START command request node2:50053 search 1746412642.372107
-!END submitting job # node2:50053 1746412642.3721466
-!START submitting job # node1:50053 1746412642.3899224
-!START start job # node1:50053 1746412642.391024
-took to start node1:50053 0.00039887428283691406
-!END submitting job # node1:50053 1746412642.3915086
-!END start job # node1:50053 1746412642.391546
-!START submitting job # node3:50053 1746412642.3915892
-!START run job # node1:50053 1746412642.3916318
-!START start job # node3:50053 1746412642.391682
-ts 1746412642.3917482
-!START command request node1:50053 search 1746412642.392013
-took to start node3:50053 0.0074236392974853516
-!END start job # node3:50053 1746412642.409458
-!START run job # node3:50053 1746412642.4106703
-!END submitting job # node3:50053 1746412642.4095159
-ts 1746412642.4107287
-!START submitting job # node1:50054 1746412642.4107912
-!START command request node3:50053 search 1746412642.4108431
-!START start job # node1:50054 1746412642.4108984
-took to start node1:50054 0.0014734268188476562
-!END start job # node1:50054 1746412642.4297867
-!START run job # node1:50054 1746412642.4297957
-ts 1746412642.429827
-!START command request node1:50054 search 1746412642.4298422
-!END submitting job # node1:50054 1746412642.4385552
-!START submitting job # node2:50054 1746412642.4386072
-!START start job # node2:50054 1746412642.4443204
-took to start node2:50054 0.0004124641418457031
-!END submitting job # node2:50054 1746412642.4458797
-!END start job # node2:50054 1746412642.4459174
-!START submitting job # node3:50054 1746412642.4459603
-!START run job # node2:50054 1746412642.4459937
-!START start job # node3:50054 1746412642.4460266
-ts 1746412642.4460902
-!START command request node2:50054 search 1746412642.446325
-took to start node3:50054 0.0002834796905517578
-!END start job # node3:50054 1746412642.4585004
-!START run job # node3:50054 1746412642.4684658
-ts 1746412642.4685264
-!START command request node3:50054 search 1746412642.4685712
-!END submitting job # node3:50054 1746412642.4697645
-!START collecting results 1746412642.4849272
-latency 0.0028061866760253906
-!END command response node3:50053 search 1746412643.3040774
-!END run job # node3:50053 1746412643.304297
-latency 0.003859996795654297
-!END command response node2:50053 search 1746412643.3067317
-!END run job # node2:50053 1746412643.306883
-latency 0.0029213428497314453
-!END command response node1:50053 search 1746412643.3214684
-!END run job # node1:50053 1746412643.3216207
-latency 0.003246307373046875
-!END command response node1:50052 search 1746412643.3513477
-!END run job # node1:50052 1746412643.351497
-latency 0.0029854774475097656
-!END command response node3:50052 search 1746412643.384516
-!END run job # node3:50052 1746412643.3846772
-latency 0.0028395652770996094
-!END command response node2:50052 search 1746412643.3930454
-!END run job # node2:50052 1746412643.3931944
-latency 0.002671480178833008
-!END command response node1:50054 search 1746412643.4384005
-!END run job # node1:50054 1746412643.4385486
-latency 0.0008063316345214844
-!END command response node3:50054 search 1746412643.4631052
-!END run job # node3:50054 1746412643.4632783
-latency 0.0007343292236328125
-!END command response node2:50054 search 1746412643.500186
-!END run job # node2:50054 1746412643.5003378
-!END collecting results 1746412643.5004597
-ts 1746412643.5013456
-!START command request node1:50052 __getattribute__ ('ids',) {} 1746412643.5014553
-latency 0.004857540130615234
-!END command response node1:50052 __getattribute__ ('ids',) {} 1746412643.5091546
-ts 1746412643.515197
-!START command request node2:50052 __getattribute__ ('ids',) {} 1746412643.5152564
-latency 0.003957033157348633
-!END command response node2:50052 __getattribute__ ('ids',) {} 1746412643.5216978
-ts 1746412643.5226865
-!START command request node3:50052 __getattribute__ ('ids',) {} 1746412643.5227427
-latency 0.005068540573120117
-!END command response node3:50052 __getattribute__ ('ids',) {} 1746412643.5304015
-ts 1746412643.5322502
-!START command request node2:50053 __getattribute__ ('ids',) {} 1746412643.5323057
-latency 0.004313230514526367
-!END command response node2:50053 __getattribute__ ('ids',) {} 1746412643.5390375
-ts 1746412643.5399516
-!START command request node1:50053 __getattribute__ ('ids',) {} 1746412643.540005
-latency 0.0045359134674072266
-!END command response node1:50053 __getattribute__ ('ids',) {} 1746412643.5474646
-ts 1746412643.5483892
-!START command request node3:50053 __getattribute__ ('ids',) {} 1746412643.5484428
-latency 0.004478931427001953
-!END command response node3:50053 __getattribute__ ('ids',) {} 1746412643.5553877
-ts 1746412643.5562997
-!START command request node1:50054 __getattribute__ ('ids',) {} 1746412643.556359
-latency 0.004192352294921875
-!END command response node1:50054 __getattribute__ ('ids',) {} 1746412643.5627315
-ts 1746412643.5636437
-!START command request node2:50054 __getattribute__ ('ids',) {} 1746412643.5636973
-latency 0.004302263259887695
-!END command response node2:50054 __getattribute__ ('ids',) {} 1746412643.5704653
-ts 1746412643.572267
-!START command request node3:50054 __getattribute__ ('ids',) {} 1746412643.57232
-latency 0.004448890686035156
-!END command response node3:50054 __getattribute__ ('ids',) {} 1746412643.5790658
-!START collecting distances 1746412643.5799704
-ts 1746412643.5800202
-!START command request node1:50052 __getattribute__ ('distances',) {} 1746412643.5800586
-latency 0.0014717578887939453
-!END command response node1:50052 __getattribute__ ('distances',) {} 1746412643.5840676
-ts 1746412643.5847857
-!START command request node2:50052 __getattribute__ ('distances',) {} 1746412643.584839
-latency 0.0018208026885986328
-!END command response node2:50052 __getattribute__ ('distances',) {} 1746412643.5884483
-ts 1746412643.5891728
-!START command request node3:50052 __getattribute__ ('distances',) {} 1746412643.5892313
-latency 0.0017833709716796875
-!END command response node3:50052 __getattribute__ ('distances',) {} 1746412643.5927918
-ts 1746412643.5940173
-!START command request node2:50053 __getattribute__ ('distances',) {} 1746412643.5940726
-latency 0.0015685558319091797
-!END command response node2:50053 __getattribute__ ('distances',) {} 1746412643.5972712
-ts 1746412643.598008
-!START command request node1:50053 __getattribute__ ('distances',) {} 1746412643.5980673
-latency 0.0017361640930175781
-!END command response node1:50053 __getattribute__ ('distances',) {} 1746412643.6016655
-ts 1746412643.602379
-!START command request node3:50053 __getattribute__ ('distances',) {} 1746412643.6024365
-latency 0.0017328262329101562
-!END command response node3:50053 __getattribute__ ('distances',) {} 1746412643.6058757
-ts 1746412643.607516
-!START command request node1:50054 __getattribute__ ('distances',) {} 1746412643.6075714
-latency 0.0017168521881103516
-!END command response node1:50054 __getattribute__ ('distances',) {} 1746412643.6110454
-ts 1746412643.6126728
-!START command request node2:50054 __getattribute__ ('distances',) {} 1746412643.6127276
-latency 0.001692056655883789
-!END command response node2:50054 __getattribute__ ('distances',) {} 1746412643.6161265
-ts 1746412643.6173084
-!START command request node3:50054 __getattribute__ ('distances',) {} 1746412643.6173627
-latency 0.0022885799407958984
-!END command response node3:50054 __getattribute__ ('distances',) {} 1746412643.6213014
-!END collecting distances 1746412643.6220224
-!START processing results # 0 1746412643.6220562
-!END processing results # 0 1746412643.6376607
-!START finalize results 1746412643.6377578
-!END finalize results 1746412643.6380084
-!END search 1746412643.6409895
+!START search 1746412987.0401561
+!START thread pool create 1746412987.0401797
+!END thread pool create 1746412987.040252
+!START submitting job # node1:50052 1746412987.040538
+!START start job # node1:50052 1746412987.0405624
+took to start node1:50052 0.0003123283386230469
+!END submitting job # node1:50052 1746412987.0409346
+!END start job # node1:50052 1746412987.040984
+!START submitting job # node2:50052 1746412987.041026
+!START run job # node1:50052 1746412987.0410545
+!START start job # node2:50052 1746412987.0410845
+ts 1746412987.0411367
+!START command request node1:50052 search 1746412987.0413008
+took to start node2:50052 0.009471654891967773
+!END start job # node2:50052 1746412987.0563571
+!START run job # node2:50052 1746412987.0563936
+!END submitting job # node2:50052 1746412987.057488
+ts 1746412987.0575655
+!START submitting job # node1:50053 1746412987.0576189
+!START command request node2:50052 search 1746412987.0576723
+!START start job # node1:50053 1746412987.0577075
+took to start node1:50053 0.0003597736358642578
+!END submitting job # node1:50053 1746412987.0755107
+!END start job # node1:50053 1746412987.0755525
+!START submitting job # node3:50052 1746412987.0756068
+!START run job # node1:50053 1746412987.0756416
+!START start job # node3:50052 1746412987.0756736
+ts 1746412987.075728
+!START command request node1:50053 search 1746412987.075909
+took to start node3:50052 0.010968446731567383
+!END submitting job # node3:50052 1746412987.0926821
+!START submitting job # node3:50053 1746412987.0939126
+!START start job # node3:50053 1746412987.0939398
+!END start job # node3:50052 1746412987.0927706
+!START run job # node3:50052 1746412987.0939858
+ts 1746412987.0943117
+!START command request node3:50052 search 1746412987.0943534
+took to start node3:50053 0.007935762405395508
+!END start job # node3:50053 1746412987.1140006
+!START run job # node3:50053 1746412987.1140277
+ts 1746412987.115307
+!START command request node3:50053 search 1746412987.1153383
+!END submitting job # node3:50053 1746412987.1261039
+!START submitting job # node2:50053 1746412987.1330092
+!START start job # node2:50053 1746412987.1343975
+took to start node2:50053 0.00041222572326660156
+!END submitting job # node2:50053 1746412987.1348972
+!END start job # node2:50053 1746412987.1349356
+!START submitting job # node1:50054 1746412987.1349783
+!START run job # node2:50053 1746412987.135016
+!START start job # node1:50054 1746412987.135056
+ts 1746412987.1351125
+!START command request node2:50053 search 1746412987.1353655
+took to start node1:50054 0.0003082752227783203
+!END start job # node1:50054 1746412987.1520839
+!START run job # node1:50054 1746412987.152109
+!END submitting job # node1:50054 1746412987.1450138
+ts 1746412987.1521375
+!START submitting job # node2:50054 1746412987.1521888
+!START command request node1:50054 search 1746412987.1522365
+!START start job # node2:50054 1746412987.1522734
+took to start node2:50054 0.005950212478637695
+!END submitting job # node2:50054 1746412987.1740165
+!START submitting job # node3:50054 1746412987.175428
+!END start job # node2:50054 1746412987.174085
+!START start job # node3:50054 1746412987.1754532
+!START run job # node2:50054 1746412987.1755056
+ts 1746412987.1758363
+!START command request node2:50054 search 1746412987.175854
+took to start node3:50054 0.010423898696899414
+!END start job # node3:50054 1746412987.1860285
+!END submitting job # node3:50054 1746412987.19279
+!START run job # node3:50054 1746412987.1928577
+!START collecting results 1746412987.1942544
+ts 1746412987.194345
+!START command request node3:50054 search 1746412987.194433
+latency 0.0031502246856689453
+!END command response node1:50053 search 1746412988.0448735
+!END run job # node1:50053 1746412988.045112
+latency 0.002892017364501953
+!END command response node3:50053 search 1746412988.0568867
+!END run job # node3:50053 1746412988.0570712
+latency 0.003409862518310547
+!END command response node1:50052 search 1746412988.0688202
+!END run job # node1:50052 1746412988.068978
+latency 0.0028443336486816406
+!END command response node2:50053 search 1746412988.1018152
+!END run job # node2:50053 1746412988.1019864
+latency 0.002812623977661133
+!END command response node3:50052 search 1746412988.1253657
+!END run job # node3:50052 1746412988.1255624
+latency 0.0031642913818359375
+!END command response node2:50052 search 1746412988.1306942
+!END run job # node2:50052 1746412988.1308444
+latency 0.0028994083404541016
+!END command response node1:50054 search 1746412988.194585
+!END run job # node1:50054 1746412988.1947365
+latency 0.0027494430541992188
+!END command response node2:50054 search 1746412988.2099383
+!END run job # node2:50054 1746412988.2101147
+latency 0.00078582763671875
+!END command response node3:50054 search 1746412988.2268393
+!END run job # node3:50054 1746412988.2270029
+!END collecting results 1746412988.227132
+ts 1746412988.2280123
+!START command request node1:50052 __getattribute__ ('ids',) {} 1746412988.2280965
+latency 0.0041310787200927734
+!END command response node1:50052 __getattribute__ ('ids',) {} 1746412988.2350285
+ts 1746412988.241225
+!START command request node2:50052 __getattribute__ ('ids',) {} 1746412988.241287
+latency 0.0043909549713134766
+!END command response node2:50052 __getattribute__ ('ids',) {} 1746412988.2482893
+ts 1746412988.2502458
+!START command request node1:50053 __getattribute__ ('ids',) {} 1746412988.2503023
+latency 0.0032339096069335938
+!END command response node1:50053 __getattribute__ ('ids',) {} 1746412988.255986
+ts 1746412988.257902
+!START command request node3:50052 __getattribute__ ('ids',) {} 1746412988.2579591
+latency 0.0041959285736083984
+!END command response node3:50052 __getattribute__ ('ids',) {} 1746412988.2646616
+ts 1746412988.2665086
+!START command request node3:50053 __getattribute__ ('ids',) {} 1746412988.2665644
+latency 0.0035941600799560547
+!END command response node3:50053 __getattribute__ ('ids',) {} 1746412988.2723923
+ts 1746412988.274258
+!START command request node2:50053 __getattribute__ ('ids',) {} 1746412988.2743132
+latency 0.0035161972045898438
+!END command response node2:50053 __getattribute__ ('ids',) {} 1746412988.280279
+ts 1746412988.2821283
+!START command request node1:50054 __getattribute__ ('ids',) {} 1746412988.2821834
+latency 0.0036470890045166016
+!END command response node1:50054 __getattribute__ ('ids',) {} 1746412988.2881367
+ts 1746412988.2908814
+!START command request node2:50054 __getattribute__ ('ids',) {} 1746412988.2909362
+latency 0.003464937210083008
+!END command response node2:50054 __getattribute__ ('ids',) {} 1746412988.2967196
+ts 1746412988.2995157
+!START command request node3:50054 __getattribute__ ('ids',) {} 1746412988.2995713
+latency 0.00372314453125
+!END command response node3:50054 __getattribute__ ('ids',) {} 1746412988.3053381
+!START collecting distances 1746412988.307211
+ts 1746412988.307264
+!START command request node1:50052 __getattribute__ ('distances',) {} 1746412988.3073037
+latency 0.0015604496002197266
+!END command response node1:50052 __getattribute__ ('distances',) {} 1746412988.3106532
+ts 1746412988.3113706
+!START command request node2:50052 __getattribute__ ('distances',) {} 1746412988.3114247
+latency 0.0014884471893310547
+!END command response node2:50052 __getattribute__ ('distances',) {} 1746412988.314773
+ts 1746412988.3155003
+!START command request node1:50053 __getattribute__ ('distances',) {} 1746412988.3155568
+latency 0.0014781951904296875
+!END command response node1:50053 __getattribute__ ('distances',) {} 1746412988.318687
+ts 1746412988.3194098
+!START command request node3:50052 __getattribute__ ('distances',) {} 1746412988.3194666
+latency 0.0015783309936523438
+!END command response node3:50052 __getattribute__ ('distances',) {} 1746412988.3231823
+ts 1746412988.323894
+!START command request node3:50053 __getattribute__ ('distances',) {} 1746412988.3239493
+latency 0.0020694732666015625
+!END command response node3:50053 __getattribute__ ('distances',) {} 1746412988.327532
+ts 1746412988.3282404
+!START command request node2:50053 __getattribute__ ('distances',) {} 1746412988.3282955
+latency 0.0017712116241455078
+!END command response node2:50053 __getattribute__ ('distances',) {} 1746412988.3317235
+ts 1746412988.33244
+!START command request node1:50054 __getattribute__ ('distances',) {} 1746412988.3324955
+latency 0.002063274383544922
+!END command response node1:50054 __getattribute__ ('distances',) {} 1746412988.3363328
+ts 1746412988.3370612
+!START command request node2:50054 __getattribute__ ('distances',) {} 1746412988.3371158
+latency 0.0015439987182617188
+!END command response node2:50054 __getattribute__ ('distances',) {} 1746412988.340465
+ts 1746412988.3416753
+!START command request node3:50054 __getattribute__ ('distances',) {} 1746412988.3417325
+latency 0.0017876625061035156
+!END command response node3:50054 __getattribute__ ('distances',) {} 1746412988.345163
+!END collecting distances 1746412988.3463702
+!START processing results # 0 1746412988.3464053
+!END processing results # 0 1746412988.3621151
+!START finalize results 1746412988.3621993
+!END finalize results 1746412988.3624177
+!END search 1746412988.3655205
 
+quake2-1  | Starting
+quake2-1  | latency 0.0007169246673583984
+quake2-1  | !END instance request node2:50052 IndexBuildParams 1746412962.19838
+quake2-1  | !START instance response node2:50052 IndexBuildParams 1746412962.1984289
+quake2-1  | latency 0.0007817745208740234 1746412962.1988935 1746412962.199679
+quake2-1  | !END command request node2:50052 __setattr__ ('nlist', 1024) {} 1746412962.1996915
+quake2-1  | !START command response node2:50052 __setattr__ ('nlist', 1024) {} 1746412962.1997368
+quake2-1  | latency 0.0006866455078125 1746412962.2001824 1746412962.200872
+quake2-1  | !END command request node2:50052 __setattr__ ('metric', 'l2') {} 1746412962.2008848
+quake3-1  | Starting
+quake2-1  | !START command response node2:50052 __setattr__ ('metric', 'l2') {} 1746412962.2009144
+quake3-1  | latency 0.0008294582366943359
+quake2-1  | latency 0.0008654594421386719
+quake3-1  | !END instance request node2:50053 IndexBuildParams 1746412962.227238
+quake2-1  | !END instance request node2:50052 QuakeIndex 1746412962.2722628
+quake3-1  | !START instance response node2:50053 IndexBuildParams 1746412962.227299
+quake2-1  | !START instance response node2:50052 QuakeIndex 1746412962.272311
+quake3-1  | latency 0.0007321834564208984 1746412962.2278736 1746412962.228609
+quake4-1  | Starting
+quake2-1  | latency 0.0011169910430908203
+quake3-1  | !END command request node2:50053 __setattr__ ('nlist', 1024) {} 1746412962.2286232
+quake4-1  | latency 0.0007925033569335938
+quake2-1  | !END instance request node2:50052 SearchParams 1746412962.299521
+quake3-1  | !START command response node2:50053 __setattr__ ('nlist', 1024) {} 1746412962.2286751
+quake4-1  | !END instance request node2:50054 IndexBuildParams 1746412962.2560332
+quake2-1  | !START instance response node2:50052 SearchParams 1746412962.2995543
+quake3-1  | latency 0.0007355213165283203 1746412962.2290566 1746412962.2297947
+quake4-1  | !START instance response node2:50054 IndexBuildParams 1746412962.2560735
+quake2-1  | latency 0.00099945068359375 1746412962.3001022 1746412962.3011057
+quake3-1  | !END command request node2:50053 __setattr__ ('metric', 'l2') {} 1746412962.229808
+quake4-1  | latency 0.0006926059722900391 1746412962.2565725 1746412962.2572682
+quake2-1  | !END command request node2:50052 __setattr__ ('k', 10) {} 1746412962.3011308
+quake3-1  | !START command response node2:50053 __setattr__ ('metric', 'l2') {} 1746412962.2298398
+quake4-1  | !END command request node2:50054 __setattr__ ('nlist', 1024) {} 1746412962.2572825
+quake2-1  | !START command response node2:50052 __setattr__ ('k', 10) {} 1746412962.3011825
+quake3-1  | latency 0.0008654594421386719
+quake4-1  | !START command response node2:50054 __setattr__ ('nlist', 1024) {} 1746412962.257328
+quake2-1  | latency 0.0010828971862792969 1746412962.301706 1746412962.3027928
+quake3-1  | !END instance request node2:50053 QuakeIndex 1746412962.2800388
+quake4-1  | latency 0.000690460205078125 1746412962.2577014 1746412962.258395
+quake2-1  | !END command request node2:50052 __setattr__ ('nprobe', 11) {} 1746412962.3028133
+quake3-1  | !START instance response node2:50053 QuakeIndex 1746412962.280091
+quake4-1  | !END command request node2:50054 __setattr__ ('metric', 'l2') {} 1746412962.258409
+quake2-1  | !START command response node2:50052 __setattr__ ('nprobe', 11) {} 1746412962.3028653
+quake3-1  | latency 0.0009789466857910156
+quake4-1  | !START command response node2:50054 __setattr__ ('metric', 'l2') {} 1746412962.258439
+quake2-1  | latency 5.641360759735107 1746412963.0014582 1746412968.6428316
+quake3-1  | !END instance request node2:50053 SearchParams 1746412962.3184364
+quake4-1  | latency 0.0008950233459472656
+quake2-1  | !END command request node2:50052 build 1746412968.6428654
+quake3-1  | !START instance response node2:50053 SearchParams 1746412962.318472
+quake4-1  | !END instance request node2:50054 QuakeIndex 1746412962.2882967
+quake2-1  | !START command response node2:50052 build 1746412970.7345371
+quake3-1  | latency 0.0008809566497802734 1746412962.3189 1746412962.3197849
+quake4-1  | !START instance response node2:50054 QuakeIndex 1746412962.288339
+quake2-1  | latency 0.04295659065246582 1746412987.0575655 1746412987.1005263
+quake3-1  | !END command request node2:50053 __setattr__ ('k', 10) {} 1746412962.3198051
+quake4-1  | latency 0.0008883476257324219
+quake2-1  | !END command request node2:50052 search 1746412987.1005445
+quake3-1  | !START command response node2:50053 __setattr__ ('k', 10) {} 1746412962.319853
+quake4-1  | !END instance request node2:50054 SearchParams 1746412962.3368568
+quake2-1  | !START command response node2:50052 search 1746412988.1274655
+quake3-1  | latency 0.0009195804595947266 1746412962.3203037 1746412962.3212268
+quake4-1  | !START instance response node2:50054 SearchParams 1746412962.336891
+quake2-1  | latency 0.0012745857238769531 1746412988.241225 1746412988.2425036
+quake3-1  | !END command request node2:50053 __setattr__ ('nprobe', 11) {} 1746412962.3212457
+quake4-1  | latency 0.0009427070617675781 1746412962.3373606 1746412962.3383067
+quake2-1  | !END command request node2:50052 __getattribute__ ('ids',) {} 1746412988.2425334
+quake3-1  | !START command response node2:50053 __setattr__ ('nprobe', 11) {} 1746412962.3212934
+quake4-1  | !END command request node2:50054 __setattr__ ('k', 10) {} 1746412962.338327
+quake2-1  | !START command response node2:50052 __getattribute__ ('ids',) {} 1746412988.2438445
+quake3-1  | latency 8.618970394134521 1746412969.4451325 1746412978.0641198
+quake4-1  | !START command response node2:50054 __setattr__ ('k', 10) {} 1746412962.338376
+quake2-1  | latency 0.0011510848999023438 1746412988.3113706 1746412988.3125253
+quake3-1  | !END command request node2:50053 build 1746412978.0641572
+quake4-1  | latency 0.0009224414825439453 1746412962.3388686 1746412962.3397944
+quake2-1  | !END command request node2:50052 __getattribute__ ('distances',) {} 1746412988.312545
+quake3-1  | !START command response node2:50053 build 1746412980.189046
+quake4-1  | !END command request node2:50054 __setattr__ ('nprobe', 11) {} 1746412962.3398125
+quake2-1  | !START command response node2:50052 __getattribute__ ('distances',) {} 1746412988.313233
+quake3-1  | latency 0.03947854042053223 1746412987.1351125 1746412987.1745965
+quake4-1  | !START command response node2:50054 __setattr__ ('nprobe', 11) {} 1746412962.3398592
+quake3-1  | !END command request node2:50053 search 1746412987.1746233
+quake4-1  | latency 6.6367669105529785 1746412975.9273462 1746412982.5641265
+quake3-1  | !START command response node2:50053 search 1746412988.0989087
+quake4-1  | !END command request node2:50054 build 1746412982.5641625
+quake3-1  | latency 0.0011527538299560547 1746412988.274258 1746412988.2754142
+quake4-1  | !START command response node2:50054 build 1746412984.6667953
+quake3-1  | !END command request node2:50053 __getattribute__ ('ids',) {} 1746412988.275444
+quake4-1  | latency 0.03265666961669922 1746412987.1758363 1746412987.2084968
+quake3-1  | !START command response node2:50053 __getattribute__ ('ids',) {} 1746412988.2767112
+quake4-1  | !END command request node2:50054 search 1746412987.2085152
+quake3-1  | latency 0.0010678768157958984 1746412988.3282404 1746412988.3293118
+quake4-1  | !START command response node2:50054 search 1746412988.2071247
+quake3-1  | !END command request node2:50053 __getattribute__ ('distances',) {} 1746412988.3293335
+quake4-1  | latency 0.001069784164428711 1746412988.2908814 1746412988.291953
+quake3-1  | !START command response node2:50053 __getattribute__ ('distances',) {} 1746412988.3299003
+quake4-1  | !END command request node2:50054 __getattribute__ ('ids',) {} 1746412988.2919655
+quake4-1  | !START command response node2:50054 __getattribute__ ('ids',) {} 1746412988.293206
+quake4-1  | latency 0.0010986328125 1746412988.3370612 1746412988.3381636
+quake4-1  | !END command request node2:50054 __getattribute__ ('distances',) {} 1746412988.3381839
+quake4-1  | !START command response node2:50054 __getattribute__ ('distances',) {} 1746412988.3388693
 
-!START command response node1:50052 build 1746412626.3650675
-latency 0.04152083396911621 1746412642.3208055 1746412642.3623328
-!END command request node1:50052 search 1746412642.3624067
-!START command response node1:50052 search 1746412643.3479655
-latency 0.001462697982788086 1746412643.5013456 1746412643.5028126
-!END command request node1:50052 __getattribute__ ('ids',) {} 1746412643.502867
-!START command response node1:50052 __getattribute__ ('ids',) {} 1746412643.5042188
-latency 0.0017406940460205078 1746412643.5800202 1746412643.5817647
-!END command request node1:50052 __getattribute__ ('distances',) {} 1746412643.58181
-!START command response node1:50052 __getattribute__ ('distances',) {} 1746412643.5825236
+quake2-1  | Starting
+quake2-1  | latency 0.0007696151733398438
+quake2-1  | !END instance request node3:50052 IndexBuildParams 1746412962.2079065
+quake2-1  | !START instance response node3:50052 IndexBuildParams 1746412962.2079556
+quake2-1  | latency 0.0005970001220703125 1746412962.2083523 1746412962.2089524
+quake2-1  | !END command request node3:50052 __setattr__ ('nlist', 1024) {} 1746412962.2089655
+quake2-1  | !START command response node3:50052 __setattr__ ('nlist', 1024) {} 1746412962.2090104
+quake2-1  | latency 0.0005917549133300781 1746412962.2093668 1746412962.2099614
+quake2-1  | !END command request node3:50052 __setattr__ ('metric', 'l2') {} 1746412962.2099743
+quake2-1  | !START command response node3:50052 __setattr__ ('metric', 'l2') {} 1746412962.210005
+quake3-1  | Starting
+quake2-1  | latency 0.0008172988891601562
+quake3-1  | latency 0.0006806850433349609
+quake2-1  | !END instance request node3:50052 QuakeIndex 1746412962.274893
+quake3-1  | !END instance request node3:50053 IndexBuildParams 1746412962.2367158
+quake2-1  | !START instance response node3:50052 QuakeIndex 1746412962.274936
+quake3-1  | !START instance response node3:50053 IndexBuildParams 1746412962.236766
+quake2-1  | latency 0.0009670257568359375
+quake3-1  | latency 0.0005669593811035156 1746412962.2371757 1746412962.2377458
+quake2-1  | !END instance request node3:50052 SearchParams 1746412962.3059866
+quake3-1  | !END command request node3:50053 __setattr__ ('nlist', 1024) {} 1746412962.2377596
+quake4-1  | Starting
+quake2-1  | !START instance response node3:50052 SearchParams 1746412962.3060248
+quake3-1  | !START command response node3:50053 __setattr__ ('nlist', 1024) {} 1746412962.237811
+quake4-1  | latency 0.0009639263153076172
+quake2-1  | latency 0.0008380413055419922 1746412962.3066149 1746412962.307457
+quake3-1  | latency 0.0006096363067626953 1746412962.238342 1746412962.238954
+quake4-1  | !END instance request node3:50054 IndexBuildParams 1746412962.2652545
+quake2-1  | !END command request node3:50052 __setattr__ ('k', 10) {} 1746412962.3074791
+quake3-1  | !END command request node3:50053 __setattr__ ('metric', 'l2') {} 1746412962.2389672
+quake4-1  | !START instance response node3:50054 IndexBuildParams 1746412962.265295
+quake2-1  | !START command response node3:50052 __setattr__ ('k', 10) {} 1746412962.3075294
+quake3-1  | !START command response node3:50053 __setattr__ ('metric', 'l2') {} 1746412962.2389982
+quake4-1  | latency 0.0006053447723388672 1746412962.2657163 1746412962.2663245
+quake2-1  | latency 0.0008928775787353516 1746412962.308164 1746412962.3090608
+quake3-1  | latency 0.0007836818695068359
+quake4-1  | !END command request node3:50054 __setattr__ ('nlist', 1024) {} 1746412962.2663379
+quake2-1  | !END command request node3:50052 __setattr__ ('nprobe', 11) {} 1746412962.3090816
+quake3-1  | !END instance request node3:50053 QuakeIndex 1746412962.2826862
+quake4-1  | !START command response node3:50054 __setattr__ ('nlist', 1024) {} 1746412962.2663798
+quake2-1  | !START command response node3:50052 __setattr__ ('nprobe', 11) {} 1746412962.3091524
+quake3-1  | !START instance response node3:50053 QuakeIndex 1746412962.2827458
+quake4-1  | latency 0.0005736351013183594 1746412962.2666893 1746412962.2672653
+quake2-1  | latency 6.5331597328186035 1746412964.7059116 1746412971.2390847
+quake3-1  | latency 0.0008909702301025391
+quake4-1  | !END command request node3:50054 __setattr__ ('metric', 'l2') {} 1746412962.2672787
+quake2-1  | !END command request node3:50052 build 1746412971.2391188
+quake3-1  | !END instance request node3:50053 SearchParams 1746412962.3242235
+quake4-1  | !START command response node3:50054 __setattr__ ('metric', 'l2') {} 1746412962.2673094
+quake2-1  | !START command response node3:50052 build 1746412973.3369021
+quake3-1  | !START instance response node3:50053 SearchParams 1746412962.3242579
+quake4-1  | latency 0.0009105205535888672
+quake2-1  | latency 0.03957247734069824 1746412987.0943117 1746412987.1338904
+quake3-1  | latency 0.0009615421295166016 1746412962.324846 1746412962.3258114
+quake4-1  | !END instance request node3:50054 QuakeIndex 1746412962.2909033
+quake2-1  | !END command request node3:50052 search 1746412987.1339207
+quake3-1  | !END command request node3:50053 __setattr__ ('k', 10) {} 1746412962.3258333
+quake4-1  | !START instance response node3:50054 QuakeIndex 1746412962.2909613
+quake2-1  | !START command response node3:50052 search 1746412988.1224916
+quake3-1  | !START command response node3:50053 __setattr__ ('k', 10) {} 1746412962.3258848
+quake4-1  | latency 0.0008938312530517578
+quake2-1  | latency 0.0011746883392333984 1746412988.257902 1746412988.2590806
+quake3-1  | latency 0.000896453857421875 1746412962.3264785 1746412962.327379
+quake4-1  | !END instance request node3:50054 SearchParams 1746412962.3427045
+quake2-1  | !END command request node3:50052 __getattribute__ ('ids',) {} 1746412988.2591085
+quake3-1  | !END command request node3:50053 __setattr__ ('nprobe', 11) {} 1746412962.3274004
+quake4-1  | !START instance response node3:50054 SearchParams 1746412962.3427398
+quake2-1  | !START command response node3:50052 __getattribute__ ('ids',) {} 1746412988.260413
+quake3-1  | !START command response node3:50053 __setattr__ ('nprobe', 11) {} 1746412962.3274534
+quake4-1  | latency 0.0009226799011230469 1746412962.3433363 1746412962.3442628
+quake2-1  | latency 0.0015060901641845703 1746412988.3194098 1746412988.3209195
+quake3-1  | latency 7.620788097381592 1746412970.371626 1746412977.9924285
+quake4-1  | !END command request node3:50054 __setattr__ ('k', 10) {} 1746412962.344285
+quake2-1  | !END command request node3:50052 __getattribute__ ('distances',) {} 1746412988.32094
+quake3-1  | !END command request node3:50053 build 1746412977.9924662
+quake4-1  | !START command response node3:50054 __setattr__ ('k', 10) {} 1746412962.3443353
+quake2-1  | !START command response node3:50052 __getattribute__ ('distances',) {} 1746412988.3215523
+quake3-1  | !START command response node3:50053 build 1746412980.1155276
+quake4-1  | latency 0.0009944438934326172 1746412962.3449295 1746412962.3459277
+quake3-1  | latency 0.04390144348144531 1746412987.115307 1746412987.1592126
+quake4-1  | !END command request node3:50054 __setattr__ ('nprobe', 11) {} 1746412962.345948
+quake3-1  | !END command request node3:50053 search 1746412987.1592314
+quake4-1  | !START command response node3:50054 __setattr__ ('nprobe', 11) {} 1746412962.346002
+quake3-1  | !START command response node3:50053 search 1746412988.0539317
+quake4-1  | latency 5.168159008026123 1746412979.6232586 1746412984.7914312
+quake3-1  | latency 0.0010416507720947266 1746412988.2665086 1746412988.2675536
+quake4-1  | !END command request node3:50054 build 1746412984.7914665
+quake3-1  | !END command request node3:50053 __getattribute__ ('ids',) {} 1746412988.267579
+quake4-1  | !START command response node3:50054 build 1746412986.9153144
+quake3-1  | !START command response node3:50053 __getattribute__ ('ids',) {} 1746412988.2687483
+quake4-1  | latency 0.03624868392944336 1746412987.194345 1746412987.2305987
+quake3-1  | latency 0.0009095668792724609 1746412988.323894 1746412988.3248072
+quake4-1  | !END command request node3:50054 search 1746412987.230619
+quake3-1  | !END command request node3:50053 __getattribute__ ('distances',) {} 1746412988.3248281
+quake4-1  | !START command response node3:50054 search 1746412988.2259943
+quake3-1  | !START command response node3:50053 __getattribute__ ('distances',) {} 1746412988.3254106
+quake4-1  | latency 0.0009706020355224609 1746412988.2995157 1746412988.3004885
+quake4-1  | !END command request node3:50054 __getattribute__ ('ids',) {} 1746412988.3005042
+quake4-1  | !START command response node3:50054 __getattribute__ ('ids',) {} 1746412988.301564
+quake4-1  | latency 0.0009975433349609375 1746412988.3416753 1746412988.3426764
+quake4-1  | !END command request node3:50054 __getattribute__ ('distances',) {} 1746412988.3426971
+quake4-1  | !START command response node3:50054 __getattribute__ ('distances',) {} 1746412988.343324
+
+quake2-1  | Starting
+quake2-1  | latency 0.0008866786956787109
+quake2-1  | !END instance request node1:50052 IndexBuildParams 1746412962.1889508
+quake2-1  | !START instance response node1:50052 IndexBuildParams 1746412962.188998
+quake2-1  | latency 0.00084686279296875 1746412962.1895583 1746412962.1904085
+quake2-1  | !END command request node1:50052 __setattr__ ('nlist', 1024) {} 1746412962.1904225
+quake2-1  | !START command response node1:50052 __setattr__ ('nlist', 1024) {} 1746412962.190468
+quake2-1  | latency 0.0007920265197753906 1746412962.1907911 1746412962.1915858
+quake2-1  | !END command request node1:50052 __setattr__ ('metric', 'l2') {} 1746412962.1915996
+quake2-1  | !START command response node1:50052 __setattr__ ('metric', 'l2') {} 1746412962.19163
+quake3-1  | Starting
+quake2-1  | latency 0.0007824897766113281
+quake3-1  | latency 0.0007312297821044922
+quake2-1  | !END instance request node1:50052 QuakeIndex 1746412962.2697375
+quake3-1  | !END instance request node1:50053 IndexBuildParams 1746412962.2182736
+quake2-1  | !START instance response node1:50052 QuakeIndex 1746412962.269783
+quake3-1  | !START instance response node1:50053 IndexBuildParams 1746412962.2183187
+quake2-1  | latency 0.0008831024169921875
+quake3-1  | latency 0.0006926059722900391 1746412962.218743 1746412962.2194388
+quake2-1  | !END instance request node1:50052 SearchParams 1746412962.2937188
+quake4-1  | Starting
+quake3-1  | !END command request node1:50053 __setattr__ ('nlist', 1024) {} 1746412962.2194521
+quake2-1  | !START instance response node1:50052 SearchParams 1746412962.2937515
+quake4-1  | latency 0.0009832382202148438
+quake3-1  | !START command response node1:50053 __setattr__ ('nlist', 1024) {} 1746412962.2194958
+quake2-1  | latency 0.0008711814880371094 1746412962.294081 1746412962.2949562
+quake4-1  | !END instance request node1:50054 IndexBuildParams 1746412962.2462852
+quake3-1  | latency 0.0006365776062011719 1746412962.2197168 1746412962.220356
+quake2-1  | !END command request node1:50052 __setattr__ ('k', 10) {} 1746412962.2949789
+quake4-1  | !START instance response node1:50054 IndexBuildParams 1746412962.2463424
+quake3-1  | !END command request node1:50053 __setattr__ ('metric', 'l2') {} 1746412962.2203693
+quake2-1  | !START command response node1:50052 __setattr__ ('k', 10) {} 1746412962.2950304
+quake4-1  | latency 0.0007543563842773438 1746412962.246869 1746412962.2476275
+quake3-1  | !START command response node1:50053 __setattr__ ('metric', 'l2') {} 1746412962.220399
+quake2-1  | latency 0.0009553432464599609 1746412962.2954206 1746412962.29638
+quake4-1  | !END command request node1:50054 __setattr__ ('nlist', 1024) {} 1746412962.247642
+quake3-1  | latency 0.0009076595306396484
+quake2-1  | !END command request node1:50052 __setattr__ ('nprobe', 11) {} 1746412962.2964008
+quake4-1  | !START command response node1:50054 __setattr__ ('nlist', 1024) {} 1746412962.247688
+quake3-1  | !END instance request node1:50053 QuakeIndex 1746412962.277725
+quake2-1  | !START command response node1:50052 __setattr__ ('nprobe', 11) {} 1746412962.2964528
+quake4-1  | latency 0.00078582763671875 1746412962.2480483 1746412962.2488372
+quake3-1  | !START instance response node1:50053 QuakeIndex 1746412962.2777715
+quake2-1  | latency 4.46434211730957 1746412962.3474584 1746412966.811814
+quake4-1  | !END command request node1:50054 __setattr__ ('metric', 'l2') {} 1746412962.2488513
+quake3-1  | latency 0.0009622573852539062
+quake2-1  | !END command request node1:50052 build 1746412966.8118484
+quake4-1  | !START command response node1:50054 __setattr__ ('metric', 'l2') {} 1746412962.2488842
+quake3-1  | !END instance request node1:50053 SearchParams 1746412962.3122005
+quake2-1  | !START command response node1:50052 build 1746412968.927121
+quake4-1  | latency 0.0008971691131591797
+quake3-1  | !START instance response node1:50053 SearchParams 1746412962.3122342
+quake2-1  | latency 0.033600807189941406 1746412987.0411367 1746412987.0747426
+quake4-1  | !END instance request node1:50054 QuakeIndex 1746412962.2855551
+quake3-1  | latency 0.0010156631469726562 1746412962.3127377 1746412962.3137572
+quake2-1  | !END command request node1:50052 search 1746412987.0747645
+quake4-1  | !START instance response node1:50054 QuakeIndex 1746412962.2856407
+quake3-1  | !END command request node1:50053 __setattr__ ('k', 10) {} 1746412962.3137815
+quake2-1  | !START command response node1:50052 search 1746412988.0653498
+quake4-1  | latency 0.0009815692901611328
+quake3-1  | !START command response node1:50053 __setattr__ ('k', 10) {} 1746412962.3138313
+quake2-1  | latency 0.0014443397521972656 1746412988.2280123 1746412988.2294607
+quake4-1  | !END instance request node1:50054 SearchParams 1746412962.3306735
+quake3-1  | latency 0.0009701251983642578 1746412962.3143265 1746412962.3153007
+quake2-1  | !END command request node1:50052 __getattribute__ ('ids',) {} 1746412988.2294917
+quake4-1  | !START instance response node1:50054 SearchParams 1746412962.3307045
+quake3-1  | !END command request node1:50053 __setattr__ ('nprobe', 11) {} 1746412962.3153217
+quake2-1  | !START command response node1:50052 __getattribute__ ('ids',) {} 1746412988.2308419
+quake4-1  | latency 0.0010023117065429688 1746412962.3311841 1746412962.3321908
+quake3-1  | !START command response node1:50053 __setattr__ ('nprobe', 11) {} 1746412962.3153725
+quake2-1  | latency 0.0010488033294677734 1746412988.307264 1746412988.3083165
+quake4-1  | !END command request node1:50054 __setattr__ ('k', 10) {} 1746412962.3322146
+quake3-1  | latency 8.71403193473816 1746412965.0766156 1746412973.7906647
+quake2-1  | !END command request node1:50052 __getattribute__ ('distances',) {} 1746412988.308337
+quake4-1  | !START command response node1:50054 __setattr__ ('k', 10) {} 1746412962.3322694
+quake3-1  | !END command request node1:50053 build 1746412973.7907035
+quake2-1  | !START command response node1:50052 __getattribute__ ('distances',) {} 1746412988.3090441
+quake4-1  | latency 0.001123666763305664 1746412962.3327844 1746412962.333912
+quake3-1  | !START command response node1:50053 build 1746412975.8989785
+quake4-1  | !END command request node1:50054 __setattr__ ('nprobe', 11) {} 1746412962.3339329
+quake3-1  | latency 0.0336918830871582 1746412987.075728 1746412987.1094253
+quake4-1  | !START command response node1:50054 __setattr__ ('nprobe', 11) {} 1746412962.333992
+quake3-1  | !END command request node1:50053 search 1746412987.1094522
+quake4-1  | latency 6.261728763580322 1746412975.8797975 1746412982.1415403
+quake3-1  | !START command response node1:50053 search 1746412988.041636
+quake4-1  | !END command request node1:50054 build 1746412982.1415954
+quake3-1  | latency 0.0011622905731201172 1746412988.2502458 1746412988.2514117
+quake4-1  | !START command response node1:50054 build 1746412984.2587342
+quake3-1  | !END command request node1:50053 __getattribute__ ('ids',) {} 1746412988.2514386
+quake4-1  | latency 0.04762411117553711 1746412987.1521375 1746412987.1997666
+quake3-1  | !START command response node1:50053 __getattribute__ ('ids',) {} 1746412988.2526963
+quake4-1  | !END command request node1:50054 search 1746412987.1997867
+quake3-1  | latency 0.0010120868682861328 1746412988.3155003 1746412988.316516
+quake4-1  | !START command response node1:50054 search 1746412988.1916192
+quake3-1  | !END command request node1:50053 __getattribute__ ('distances',) {} 1746412988.3165383
+quake4-1  | latency 0.0010712146759033203 1746412988.2821283 1746412988.2832024
+quake3-1  | !START command response node1:50053 __getattribute__ ('distances',) {} 1746412988.3171563
+quake4-1  | !END command request node1:50054 __getattribute__ ('ids',) {} 1746412988.2832246
+quake4-1  | !START command response node1:50054 __getattribute__ ('ids',) {} 1746412988.2844384
+quake4-1  | latency 0.001157999038696289 1746412988.33244 1746412988.3336017
+quake4-1  | !END command request node1:50054 __getattribute__ ('distances',) {} 1746412988.3336225
+quake4-1  | !START command response node1:50054 __getattribute__ ('distances',) {} 1746412988.3342173
