@@ -87,7 +87,7 @@ class Local:
 
     def _decode_response(self, response: CommandResponse, action):
         print("latency", time.time() - response.ts)
-        print("!END command response", action, time.time())
+        print("!END command response", action, self.uuid, time.time())
         if response.direct:
             return pickle.loads(response.result)
 
@@ -116,7 +116,7 @@ class Local:
                 item = object.__getattribute__(self, *args) if not known_callable else None
                 if known_callable or isinstance(item, Callable):
                     # print(f"call [{known_name or item.__name__}]:, args={args}, kwargs={kwargs}")
-                    print("!START command request", action, time.time())
+                    print("!START command request", action, self.uuid, time.time())
                     return lambda *arguments, **keywords: self._decode_response(
                         self._stub.SendCommand(
                             CommandRequest(
@@ -132,7 +132,7 @@ class Local:
                 pass
 
         # print(f"prop [{action}]:, args={args}, kwargs={kwargs}")
-        print("!START command request", action, time.time())
+        print("!START command request", action, self.uuid, time.time())
         return self._decode_response(
             self._stub.SendCommand(
                 CommandRequest(
@@ -151,6 +151,7 @@ class Local:
         if self.uuid:
             return
         adjusted_args, adjusted_kwargs, lookups = self._adjust_for_nonlocal(arguments, keywords)
+        print("!START instance request", self._cls.__name__, time.time())
         response: InstanceResponse = self._stub.SendInstance(
             InstanceRequest(
                 name=self._cls.__name__,
@@ -251,7 +252,7 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         # print("Payload:", pickle.loads(request.payload))
         # print("Got command...")
         print("latency", time.time() - request.ts, request.ts, time.time())
-        print("!END command request", request.method, time.time())
+        print("!END command request", request.method, request.uuid, time.time())
         obj = self.objects[request.uuid]
         args, kwargs = self._adjust_for_nonlocal(request)
         f = getattr(obj, request.method)
@@ -259,13 +260,13 @@ class Remote(Generic[T], rwrap_pb2_grpc.WrapServicer):
         try:
             pickled = pickle.dumps(result)
             # print("...returning a direct result")
-            print("!START command response", request.method, time.time())
+            print("!START command response", request.method, request.uuid, time.time())
             return CommandResponse(result=pickled, direct=True, ts=time.time())
         except Exception:
             # print("...returning an indirect result")
             self.id += 1
             self.objects[self.id] = result
-            print("!START command response", request.method, time.time())
+            print("!START command response", request.method, request.uuid, time.time())
             return CommandResponse(result=pickle.dumps(self.id), direct=False, ts=time.time())
 
     def SendImport(self, request: ImportRequest, context):

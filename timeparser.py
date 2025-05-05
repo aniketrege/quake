@@ -5,6 +5,7 @@ from datetime import datetime
 
 # Paste your log data as a single string
 log_data = open("times.txt", "r").read()
+log_data = re.sub(r"^(?!\!).*\n", "", log_data)
 
 lines = log_data.strip().splitlines()
 
