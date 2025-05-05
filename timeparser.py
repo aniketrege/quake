@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 from dataclasses import dataclass
 
@@ -7,7 +8,8 @@ import re
 from datetime import datetime
 
 # Paste your log data as a single string
-log_data = open("repl9.txt", "r").read()
+name = "part1"
+log_data = open(f"{name}.txt", "r").read()
 log_data = re.sub(r"quake\d-\d  \| ", "", log_data)
 log_data = re.sub(r"^(?!\!).*\n", "", log_data)
 
@@ -20,13 +22,17 @@ class Event:
     end: datetime | None = None
 
 
+full = True
+# full = False
+
 events_objs = defaultdict(lambda: Event())
 
 for line in lines:
-    # if "command" in line:
-    #     continue
-    # if "command" in line:
-    #     continue
+    if "command" in line:
+        continue
+    if "command" in line:
+        full = False
+        continue
     match = re.match(r"!(START|END)\s+(.*)\s+(\d+\.\d+)", line)
     if not match:
         continue
@@ -40,6 +46,7 @@ for line in lines:
 events = []
 for label, event in events_objs.items():
     if not event.start or not event.end:
+        # print("event", label, event)
         continue
     elif event.start < events_objs["search"].start:
         continue
@@ -57,7 +64,12 @@ fig.update_layout(title="Task Timeline")
 
 # Show the figure
 fig.show()
-fig.write_html(f"{input('name: ')}.html")
+if full:
+    fig.write_html(f"{name}_full.html")
+else:
+    fig.write_html(f"{name}.html")
 
-for event in events:
-    print(event)
+d = [{"label": event[0], "start": str(event[1]), "end": str(event[2])} for event in events]
+with open(f"{name}.json", "w+") as f:
+    json.dump(d, f, indent=4)
+print(d)
