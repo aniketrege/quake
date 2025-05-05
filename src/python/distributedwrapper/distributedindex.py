@@ -433,10 +433,10 @@ class DistributedIndex:
         for i in range(len(results_list)):
             # Get all IDs and distances for this partition
             print("!START ids distances", time.time())
-            ids = [result[1] for result in results_list[i]]
+            ids = [result[0] for result in results_list[i]]
             print("!END ids distances", time.time())
             print("!START collecting distances", time.time())
-            distances = [result[2] for result in results_list[i]]
+            distances = [result[1] for result in results_list[i]]
             print("!END collecting distances", time.time())
 
             print("!START processing results #", i, time.time())
