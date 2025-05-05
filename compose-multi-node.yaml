@@ -1,0 +1,42 @@
+services:
+    quake1:
+        build: .
+        command: tail -f /dev/null
+        volumes:
+            - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
+            - ./examples:/quake/examples
+            - ./sift/:/quake/data/sift/
+        cpuset: 0-9
+    quake2:
+        build: .
+        ports:
+            - "50052:50052"
+        command: python3 -c "from quake.distributedwrapper import Remote; Remote(50052).start()"
+        # command: tail -f /dev/null
+        volumes:
+            - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
+            - ./examples:/quake/examples
+            - ./sift/:/quake/data/sift/
+        cpuset: 10-19
+    quake3:
+        build: .
+        ports:
+            - "50053:50053"
+        command: python3 -c "from quake.distributedwrapper import Remote; Remote(50053).start()"
+        # command: tail -f /dev/null
+        volumes:
+            - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
+            - ./examples:/quake/examples
+            - ./sift/:/quake/data/sift/
+        cpuset: 20-29
+    quake4:
+        build: .
+        command: python3 -c "from quake.distributedwrapper import Remote; Remote(50054).start()"
+        # command: tail -f /dev/null
+        ports:
+            - "50054:50054"
+        volumes:
+            - ./src/python/distributedwrapper:/usr/local/lib/python3.12/dist-packages/quake/distributedwrapper
+            - ./examples:/quake/examples
+            - ./sift/:/quake/data/sift/
+        cpuset: 30-39
