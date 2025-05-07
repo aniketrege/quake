@@ -153,6 +153,10 @@ def main():
     print(len(SERVERS), num_partitions, nq, queries.size(0), build_params_kw_args["nlist"])
     print(f"Search time: {dist_results[0]:.4f}s")
     print(f"Recall: {dist_results[1]:.4f}")
+    avg_servers_needed, total_servers = dist_index.calculate_server_coverage(target_percentage=0.5)
+    print(f"Server coverage: On average, {avg_servers_needed:.1f} out of {total_servers} servers needed per query for 50% of results")
+    avg_servers_needed, total_servers = dist_index.calculate_server_coverage(target_percentage=0.9)
+    print(f"Server coverage: On average, {avg_servers_needed:.1f} out of {total_servers} servers needed per query for 90% of results")
     avg_servers_needed, total_servers = dist_index.calculate_server_coverage(target_percentage=0.99)
     print(f"Server coverage: On average, {avg_servers_needed:.1f} out of {total_servers} servers needed per query for 99% of results")
     # # Calculate speedup
