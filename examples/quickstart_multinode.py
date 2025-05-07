@@ -59,7 +59,7 @@ def run_single_server_test(
 
 def run_distributed_test(dist_index: DistributedIndex, queries: torch.Tensor, gt: torch.Tensor, k: int, nprobe: int):
     """Run the test using the distributed index."""
-    print("\n=== Distributed Test ===")
+    print("\n=== Distributed Throughput Test ===")
     print(f"Using {len(dist_index.server_addresses)} servers: {', '.join(dist_index.server_addresses)}")
 
     # Search
@@ -76,15 +76,15 @@ def run_distributed_test(dist_index: DistributedIndex, queries: torch.Tensor, gt
 
 def run_distributed_test_latency(dist_index: DistributedIndex, queries: torch.Tensor, gt: torch.Tensor, k: int, nprobe: int):
     """Run the test using the distributed index."""
-    print("\n=== Distributed Test ===")
+    print("\n=== Distributed Latency Test ===")
     print(f"Using {len(dist_index.server_addresses)} servers: {', '.join(dist_index.server_addresses)}")
 
     # Search    
     search_times = []
     for i in range(queries.size(0)):
-        query = queries[i]
+        query = queries[i].unsqueeze(0)
         start_time = time.time()
-        result_ids = dist_index.search(query)
+        result_ids = dist_index.search_dist(query)
         search_time = time.time() - start_time
         search_times.append(search_time)
 
