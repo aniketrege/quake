@@ -391,20 +391,104 @@ class DistributedIndex:
             sorted_ids = torch.gather(ids, 1, sorted_indices)
 
             # Take top k results
-            top_k_ids = sorted_ids[:, : self.k]
+            top_k_ids = sorted_ids[:, :self.k]
             full_ids.append(top_k_ids)
 
         # Concatenate results from all partitions
         final_ids = torch.cat(full_ids, dim=0)
         return final_ids
 
-    def calculate_gini_index(self) -> float:
+    def _compute_server_counts_per_query(self, results_list: List[List]) -> List[Dict[int, int]]:
         """
-        Calculate the Gini index for the distribution of top k results across servers.
-        A Gini index of 0 indicates perfect equality (results evenly distributed),
-        while 1 indicates maximum inequality (all results from a single server).
-
+        Compute how many results each server contributed to the top k results for each query.
+        
+        Args:
+            results_list: List of search results from each partition
+            
         Returns:
-            float: Gini index between 0 and 1
+            List of dictionaries, where each dictionary maps server index to number of results contributed for that query
         """
-        return 0.0
+        query_server_counts = []
+        
+        for i in range(len(results_list)):
+            # Get all IDs and distances for this partition
+            ids = [result[0] for result in results_list[i]]
+            distances = [result[1] for result in results_list[i]]
+            
+            # Create a mapping of ID to server index for each query
+            id_to_server = []
+            for query_idx in range(ids[0].size(0)):
+                query_id_to_server = {}
+                for server_idx, server_ids in enumerate(ids):
+                    for result_idx in range(server_ids.size(1)):
+                        query_id_to_server[server_ids[query_idx, result_idx].item()] = server_idx
+                id_to_server.append(query_id_to_server)
+            
+            # Concatenate along the k dimension (dim=1)
+            ids = torch.cat(ids, dim=1)  # shape: (num_queries, total_k)
+            distances = torch.cat(distances, dim=1)  # shape: (num_queries, total_k)
+            
+            # Sort by distances and get top k
+            sorted_indices = torch.argsort(distances, dim=1)
+            sorted_ids = torch.gather(ids, 1, sorted_indices)
+            
+            # Take top k results
+            top_k_ids = sorted_ids[:, :self.k]
+            
+            # Track which servers contributed to the top k results for each query
+            for query_idx in range(top_k_ids.size(0)):
+                query_counts = defaultdict(int)
+                for result_idx in range(top_k_ids.size(1)):
+                    result_id = top_k_ids[query_idx, result_idx].item()
+                    server_idx = id_to_server[query_idx][result_id]
+                    query_counts[server_idx] += 1
+                query_server_counts.append(query_counts)
+                    
+        return query_server_counts
+
+    def calculate_server_coverage(self, target_percentage: float = 0.9) -> Tuple[float, int]:
+        """
+        Calculate the average number of servers needed per query to cover a target percentage of results.
+        For example, if on average we need 3 out of 9 servers to cover 90% of results for each query,
+        this indicates good load distribution.
+        
+        Args:
+            target_percentage: Target percentage of results to cover (default: 0.9 for 90%)
+            
+        Returns:
+            Tuple[float, int]: (average number of servers needed per query, total number of servers)
+        """
+        if not hasattr(self, 'results_list') or not self.results_list:
+            return 0.0, len(self.server_addresses)
+            
+        # Compute server counts per query
+        query_server_counts = self._compute_server_counts_per_query(self.results_list)
+        if not query_server_counts:
+            return 0.0, len(self.server_addresses)
+            
+        # Calculate servers needed for each query
+        servers_needed_per_query = []
+        for query_counts in query_server_counts:
+            # Sort servers by their contribution (descending)
+            server_contributions = sorted(
+                query_counts.items(),
+                key=lambda x: x[1],
+                reverse=True
+            )
+            
+            # Calculate cumulative coverage for this query
+            total_results = sum(query_counts.values())
+            cumulative_results = 0
+            servers_needed = 0
+            
+            for server_idx, count in server_contributions:
+                cumulative_results += count
+                servers_needed += 1
+                if cumulative_results / total_results >= target_percentage:
+                    break
+                    
+            servers_needed_per_query.append(servers_needed)
+        
+        # Calculate average servers needed across all queries
+        avg_servers_needed = sum(servers_needed_per_query) / len(servers_needed_per_query)
+        return avg_servers_needed, len(self.server_addresses)

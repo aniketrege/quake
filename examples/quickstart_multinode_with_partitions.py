@@ -153,7 +153,8 @@ def main():
     print(len(SERVERS), num_partitions, nq, queries.size(0), build_params_kw_args["nlist"])
     print(f"Search time: {dist_results[0]:.4f}s")
     print(f"Recall: {dist_results[1]:.4f}")
-    print(f"Gini index: {dist_index.calculate_gini_index():.4f}")
+    avg_servers_needed, total_servers = dist_index.calculate_server_coverage()
+    print(f"Server coverage: On average, {avg_servers_needed:.1f} out of {total_servers} servers needed per query for 90% of results")
     # # Calculate speedup
     # avg_single_search_time = sum(r[0] for r in single_server_results) / len(single_server_results)
     # speedup = avg_single_search_time / dist_results[0]
