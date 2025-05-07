@@ -71,6 +71,23 @@ def run_distributed_test(dist_index: DistributedIndex, queries: torch.Tensor, gt
     
     return search_time, recall.mean().item()
 
+def run_distributed_test_latency(dist_index: DistributedIndex, queries: torch.Tensor, gt: torch.Tensor, k: int, nprobe: int):
+    """Run the test using the distributed index."""
+    print("\n=== Distributed Test ===")
+    print(f"Using {len(dist_index.server_addresses)} servers: {', '.join(dist_index.server_addresses)}")
+    
+    # Search
+    # Search on each query individually
+    search_times = []
+    for i in range(queries.size(0)):
+        query = queries[i]
+        start_time = time.time()
+        result_ids = dist_index.search_dist(query)
+        search_time = time.time() - start_time
+        search_times.append(search_time)
+
+    print("Average search time: ", sum(search_times) / len(search_times))
+
 def main():
     # Load dataset
     print("Loading sift1m dataset...")
@@ -119,7 +136,8 @@ def main():
     
     # Run distributed test
     dist_results = run_distributed_test(dist_index, queries, gt, k, nprobe)
-    
+    dist_results_latency = run_distributed_test_latency(dist_index, queries, gt, k, nprobe)
+
     # Print comparison
     # print("\n=== Performance Comparison ===")
     # print("Single Server Results:")
