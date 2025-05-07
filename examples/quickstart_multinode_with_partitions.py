@@ -86,6 +86,7 @@ def run_distributed_test_latency(dist_index: DistributedIndex, queries: torch.Te
         result_ids = dist_index.search_dist(query)
         search_time = time.time() - start_time
         search_times.append(search_time)
+        print(f"Search time for query {i}: {search_time:.4f} seconds")
 
     print("Average search time: ", sum(search_times) / len(search_times))
 
