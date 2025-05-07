@@ -81,6 +81,9 @@ def run_distributed_test_latency(dist_index: DistributedIndex, queries: torch.Te
 
     # Search    
     search_times = []
+    # limit number of queries to 100
+    queries = queries[:100]
+    print(f"Searching {queries.size(0)} queries with k={k}, nprobe={nprobe}...")
     for i in range(queries.size(0)):
         query = queries[i].unsqueeze(0)
         start_time = time.time()
